@@ -4,7 +4,9 @@ from PIL import Image
 from torchvision import transforms
 from dnnbrain.dnn.io import PicDataset,DataLoader
 from dnnbrain.dnn.models import Vgg_face,dnn_test_model
-
+from cnnface.core.vgg_identity_recons import Vgg_identity
+import pandas as pd
+import os
 
 def test_dataSet(model, images_path):
     transform = transforms.Compose([transforms.Resize((224, 224)),
@@ -14,7 +16,6 @@ def test_dataSet(model, images_path):
     model_target, actual_target, _ = dnn_test_model(dataloader, model)
 
     return model_target,actual_target
-
 
 
 def test_onepicture(model,image_path,crop_coord):
@@ -28,37 +29,27 @@ def test_onepicture(model,image_path,crop_coord):
     image = image.unsqueeze(0)
 
     for i in range(10):
-        classifier_act = vgg_face(image)
+        classifier_act = model(image)
         classifier_act = classifier_act.squeeze(0)
         classifier_num = classifier_act.detach().numpy()
         max_act_index = np.where(classifier_num == np.max(classifier_num))
         print(max_act_index[0] + 1)
 
 
-
 # #------------------test one picture---------------------------------------
-vgg_face = Vgg_face()
-vgg_face.load_state_dict(torch.load('F:/Code/model/vgg_face_dag.pth'))
-image_path = 'D:/cnnface/femaletrain/n00000068/0026_01.jpg'
-crop_coord = (104, 21, 252, 223)
-
-test_onepicture(vgg_face,image_path,crop_coord)
+# vgg_face = Vgg_face()
+# vgg_face.load_state_dict(torch.load('F:/Code/model/vgg_face_dag.pth'))
+# image_path = 'D:/cnnface/femaletrain/n00000068/0026_01.jpg'
+# crop_coord = (104, 21, 252, 223)
+#
+# test_onepicture(vgg_face,image_path,crop_coord)
 
 
 #------------------test dataSet-------------------------------------------
 #load model
-vgg_face = Vgg_face()
-vgg_face.load_state_dict(torch.load('F:/Code/model/vgg_face_dag.pth'))
+vgg_id = Vgg_identity()
+vgg_id.load_state_dict(torch.load('F:/Code/model/vgg_identity_CrossEntro.pth'))
 # load and transform pictures
-images_path = 'D:/cnnface/female_crossEntropLoss_train.csv'
+images_path = 'D:/cnnface/cannot_test.csv'
 
-model_target,actual_target = test_dataSet(vgg_face,images_path)
-
-actual_target  = [67 if i == 0 else 1585 for i in actual_target]
-model_target = np.array(model_target)
-actual_target = np.array(actual_target)
-test_acc = 1.0 * np.sum(model_target == actual_target) / len(actual_target)
-print(test_acc)
-acc_67 = model_target.tolist().count(67)/actual_target.tolist().count(67)
-acc_1585 = model_target.tolist().count(1585)/actual_target.tolist().count(1585)
-print(acc_67,acc_1585)
+model_target,actual_target = test_dataSet(vgg_id,images_path)
