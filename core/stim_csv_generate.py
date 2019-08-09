@@ -67,9 +67,7 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     return beh_measure
 
 
-prepath = 'D:\cnnface\classifier_can_or_cannot_recog\cannot'
-output = 'D:/cnnface/cannot_test.csv'
+prepath = 'D:/cnnface/noise_picture'
+output = 'D:/cnnface/noise_picture_rgb.csv'
 picname,picpath,condition = read_Imagefolder(prepath)
-subjectid = ['n001506','n005591']
-measure = read_boundingbox_from_loosebb(subjectid,picname)
-generate_stim_csv(prepath,picpath,condition,output,measure)
+generate_stim_csv(prepath,picpath,condition,output)

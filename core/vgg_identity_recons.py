@@ -14,7 +14,7 @@ class Vgg_identity(Vgg_face):
 
 #Create and save a new classifier parameters(two class)
 vgg_face = Vgg_face()
-vgg_face.load_state_dict(torch.load('F:/Code/model/vgg_face_dag.pth'))
+vgg_face.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_face_dag.pth'))
 
 
 in_features = vgg_face.fc8.in_features
@@ -22,4 +22,4 @@ out_features = 2
 new_fc8 = nn.Linear(in_features,out_features,bias = True)
 vgg_face.fc8 = new_fc8
 
-torch.save(vgg_face.state_dict(),'F:/Code/model/vgg_identity_ori.pth')
+torch.save(vgg_face.state_dict(),'F:/Code/pretrained_model/vgg_identity_ori.pth')
