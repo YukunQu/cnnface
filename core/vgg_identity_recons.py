@@ -23,3 +23,8 @@ new_fc8 = nn.Linear(in_features,out_features,bias = True)
 vgg_face.fc8 = new_fc8
 
 torch.save(vgg_face.state_dict(),'F:/Code/pretrained_model/vgg_identity_ori.pth')
+
+
+
+
+

@@ -26,6 +26,7 @@ def read_Imagefolder(prepath):
         picname.append(picname_tem)
         picpath.append(picpath_tem)
         condition.append(condition_tem)
+
     picname = sum(picname,[])
     picpath = sum(picpath,[])
     condition = sum(condition,[])
@@ -67,7 +68,11 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     return beh_measure
 
 
-prepath = 'D:/cnnface/noise_picture'
-output = 'D:/cnnface/noise_picture_rgb.csv'
+prepath = 'D:\cnnface/female_male_test_51_addnoise\Face_template_noise/frame54_noise_0.09'
+output = 'D:\cnnface/female_male_test_51_addnoise/frame54_noise_0.09.csv'
 picname,picpath,condition = read_Imagefolder(prepath)
+#subjectid = os.listdir(prepath)
+#beh_measure = read_boundingbox_from_loosebb(subjectid, picpath)
+#,behavior_measure=beh_measure
 generate_stim_csv(prepath,picpath,condition,output)
+
