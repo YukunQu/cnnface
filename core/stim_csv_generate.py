@@ -68,8 +68,8 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     return beh_measure
 
 
-prepath = 'D:\cnnface/female_male_test_51_addnoise\Face_template_noise/frame54_noise_0.09'
-output = 'D:\cnnface/female_male_test_51_addnoise/frame54_noise_0.09.csv'
+prepath = 'D:\cnnface/female_male_test_51_addnoise/Face_template/gabor_noise'
+output = 'D:\cnnface/female_male_test_51_addnoise/rcicr_gabor_noise.csv'
 picname,picpath,condition = read_Imagefolder(prepath)
 #subjectid = os.listdir(prepath)
 #beh_measure = read_boundingbox_from_loosebb(subjectid, picpath)
