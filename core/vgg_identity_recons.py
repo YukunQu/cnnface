@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from dnnbrain.dnn.models import Vgg_face
 
-
 #constrcture vgg_identity model
 class Vgg_identity(Vgg_face):
     def __init__(self):
