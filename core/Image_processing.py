@@ -7,38 +7,14 @@ import cv2, os
 from tqdm import tqdm
 
 
-def generateSingleSinusoid(img_size, cycles, angle, phase):
-    angle = np.radians(angle)
-    sinepath = (np.linspace(0,cycles,img_size))[:,np.newaxis].repeat(img_size,axis=1)
-    sinusoid = (sinepath*np.sin(angle) + sinepath.T*np.cos(angle)) * 2 *np.pi
-    sinusoid = np.sin(sinusoid + phase)
-    return sinusoid
-
-
-def generateCombinSinusoid(img_size,cycles,angle,phase):
-    sinusoid_combined = []
-    for p in phase:
-        for a in angle:
-            sinusoid = generateSingleSinusoid(img_size,cycles,a,p)
-            sinusoid = np.random.randn() * sinusoid
-            sinusoid_combined.append(sinusoid)
-    sinusoid_combined = np.array(sinusoid_combined)
-    sinusoid_combined = np.sum(sinusoid_combined,axis=0)
-    sinusoid_combined = (sinusoid_combined-sinusoid_combined.min())/(sinusoid_combined.max()-sinusoid_combined.min())
-    sinusoid_combined = sinusoid_combined *255
-    return sinusoid_combined
-
-
 def image_freq_hist_plot(image_path):
     # plot the frequency histogram of pixel values of image
 
     image = Image.open(image_path)
     image_array = np.array(image)
     image_array = image_array.reshape(-1)
+    plt.hist(image_array,255)
 
-    bins = np.linspace(0,300,1) #min,max,step
-    plt.hist(image_array,bins)
-    plt.show()
 
 
 def image_power_spectrum(Image_path):
@@ -92,3 +68,10 @@ def average_img(picpathSet):
     imgs = np.array(images)
     aver_img = np.sum(imgs, axis=0) / imgs.shape[0]
     return aver_img
+
+
+def img2gray(r_path,s_path):
+    img = Image.open(r_path)
+    img = img.convert('L')
+    img.save(s_path,quality=95)
+
