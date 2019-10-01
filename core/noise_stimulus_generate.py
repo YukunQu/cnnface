@@ -1,4 +1,5 @@
 import numpy as np
+from PIL import Image
 
 
 def generateSingleSinusoid(img_size, angle, phase):
@@ -45,27 +46,18 @@ def generateNoise(img_size,patches,nscale=5):
         patch_size = img_size / length
         param = np.random.randn(numpara)
         param = param.reshape((12,length,length))
-        print(param.shape)
         param = param.repeat(patch_size,axis=1).repeat(patch_size,axis=2)
-        print(param.shape)
         params[scale] = param
 
     noise = [patches[scale] * params[scale] for scale in scales]
     noise = np.array(noise)
-    print(type(noise))
-    print(noise.shape)
     noise = (np.sum(np.sum(noise,axis=0),axis=0) + 0.3 *255)/0.6
+    noise = (noise - noise.min()) /(noise.max() - noise.min())*255   #actualy value waiting for modifing
 
     return noise,params
 
 
-from PIL import Image
-
 patches = generatePatches(512,5)
 noise,params = generateNoise(512,patches)
-print(noise.shape)
 noise_img = Image.fromarray(noise)
 noise_img.show()
-
-
-
