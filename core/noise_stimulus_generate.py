@@ -50,14 +50,17 @@ def generateNoise(img_size,patches,nscale=5):
         params[scale] = param
 
     noise = [patches[scale] * params[scale] for scale in scales]
-    noise = np.array(noise)
-    noise = (np.sum(np.sum(noise,axis=0),axis=0) + 0.3 *255)/0.6
-    noise = (noise - noise.min()) /(noise.max() - noise.min())*255   #actualy value waiting for modifing
+    noise = (np.array(noise) + 0.3 ) /0.6
+    noise = np.sum(np.sum(noise,axis=0),axis=0)
+    #noise = (noise - noise.min()) /(noise.max() - noise.min())*255   #actualy value waiting for modifing
 
     return noise,params
 
-
+import matplotlib.pyplot as plt
 patches = generatePatches(512,5)
 noise,params = generateNoise(512,patches)
+print('min:{},mean:{},max:{}'.format(noise.min(),noise.mean(),noise.max()))
+plt.hist(noise)
+plt.show()
 noise_img = Image.fromarray(noise)
 noise_img.show()
