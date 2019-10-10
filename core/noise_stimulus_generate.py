@@ -41,7 +41,7 @@ def generateNoise(img_size,patches,nscale=5):
     NumParam = [ int(num*12) for num in NumPatch]
     params = {}
 
-    for scale,numpatch,numpara in zip(scales,NumPatch,NumParam):
+    for scale, numpatch, numpara in zip(scales,NumPatch,NumParam):
         length = int(scale/2)
         patch_size = img_size / length
         param = np.random.randn(numpara)
@@ -52,7 +52,7 @@ def generateNoise(img_size,patches,nscale=5):
     noise = [patches[scale] * params[scale] for scale in scales]
     noise = (np.array(noise) + 0.3 ) /0.6
     noise = np.sum(np.sum(noise,axis=0),axis=0)
-    #noise = (noise - noise.min()) /(noise.max() - noise.min())*255   #actualy value waiting for modifing
+    # noise = (noise - noise.min()) /(noise.max() - noise.min())*255   #actualy value waiting for modifing
 
     return noise,params
 

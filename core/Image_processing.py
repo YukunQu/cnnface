@@ -7,14 +7,17 @@ import cv2, os
 from tqdm import tqdm
 
 
+def img_r2(img1, img2):
+    pass
+
+
 def image_freq_hist_plot(image_path):
     # plot the frequency histogram of pixel values of image
 
     image = Image.open(image_path)
     image_array = np.array(image)
     image_array = image_array.reshape(-1)
-    plt.hist(image_array,255)
-
+    plt.hist(image_array, 255)
 
 
 def image_power_spectrum(Image_path):
@@ -57,7 +60,7 @@ def cal_img_ms(image_path):
     s_array = np.array(s_list)
     m = m_array.mean(axis=0, keepdims=True)[0][::-1]
     s = s_array.mean(axis=0, keepdims=True)[0][::-1]
-    return m,s
+    return m, s
 
 
 def average_img(picpathSet):
