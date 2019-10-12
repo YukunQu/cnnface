@@ -8,7 +8,7 @@ from cnnface.core.vgg_identity_recons import Vgg_identity
 
 
 #prepare data
-images_path = 'D:/cnnface/male_famale_contrast_train.csv'
+images_path = 'D:\cnnface\Identity_analysis/identity2_train.csv'
 transforms = transforms.Compose([transforms.Resize((224,224)),
                                 transforms.ToTensor()])
 dataSet = PicDataset(images_path, transforms)
@@ -23,4 +23,4 @@ loss_func = nn.CrossEntropyLoss()
 #train dnn model
 dataloader = DataLoader(dataSet,batch_size=8,shuffle=True)
 trained_model = dnn_train_model(dataloader,vggI,loss_func,optimizer,num_epoches=4)
-torch.save(trained_model.state_dict(),'F:/Code/pretrained_model/vgg_male_female_CrossEntro.pth')
+torch.save(trained_model.state_dict(),'F:/Code/pretrained_model/vgg_identity2_CrossEntro.pth')

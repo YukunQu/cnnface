@@ -68,10 +68,10 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     return beh_measure
 
 
-prepath = 'D:\cnnface/female_male_test_51_addnoise\Face_template/rcicr_noise\sinusoid_frame40_1000'
-output = 'D:\cnnface/female_male_test_51_addnoise/sinusoid_frame40_1000.csv'
+prepath = 'D:\cnnface\Identity_analysis/bf_noise'
+output = 'D:\cnnface\Identity_analysis/bf_noise5000.csv'
 picname,picpath,condition = read_Imagefolder(prepath)
-#subjectid = os.listdir(prepath)
-#beh_measure = read_boundingbox_from_loosebb(subjectid, picpath)
-#,behavior_measure=beh_measure
+# subjectid = os.listdir(prepath)
+# beh_measure = read_boundingbox_from_loosebb(subjectid, picpath)
+# ,behavior_measure=beh_measure
 generate_stim_csv(prepath,picpath,condition,output)
