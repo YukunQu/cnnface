@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 
-def read_Imagefolder(prepath):
+def read_Imagefolder(parpath):
     """
     The function read from a already organized Image folder and return picname list and condition list
     for generate csv file more quickly.
@@ -14,23 +14,28 @@ def read_Imagefolder(prepath):
         picpath[list]:contains all subpath of Images in prepath
         condition[list]:contains the class of all Images
     """
-    test_set = list(os.walk(prepath))
-    picname = []
+    test_set = list(os.walk(parpath))
+
     picpath = []
     condition = []
-    for label in test_set[1:]:
-        condition_name = label[0].split('\\')[-1]
-        picname_tem = [pic for pic in label[2]]
-        picpath_tem = [condition_name + '/' + pic for pic in label[2]]
+    if len(test_set) == 1:  # if the folder only have pictures, the folder name will be the condition
+        label = test_set[0]
+        condition_name = os.path.basename(label[0])
+        picpath_tem = label[2]
         condition_tem = [condition_name for i in label[2]]
-        picname.append(picname_tem)
         picpath.append(picpath_tem)
         condition.append(condition_tem)
+    else:                   # if the folder have have some sub-folders, the sub-folders name will be the conditions
+        for label in test_set[1:]:
+            condition_name = os.path.basename(label[0])
+            picpath_tem = [condition_name + '/' + pic for pic in label[2]]
+            condition_tem = [condition_name for i in label[2]]
+            picpath.append(picpath_tem)
+            condition.append(condition_tem)
 
-    picname = sum(picname,[])
     picpath = sum(picpath,[])
     condition = sum(condition,[])
-    return picname,picpath,condition
+    return picpath, condition
 
 
 def read_boundingbox_from_loosebb(subjectid,picname):
@@ -38,7 +43,6 @@ def read_boundingbox_from_loosebb(subjectid,picname):
 
        subjectid[list]:contains subject id in vggface2
        picpath_list[list]:contains the name of the image that you want to get the coordinate.
-
 
     """
     boundingbox = pd.read_csv('D:/VGGface2/meta_data/bb_landmark/loose_bb_train.csv')
@@ -68,10 +72,11 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     return beh_measure
 
 
-prepath = 'D:\cnnface\Identity_analysis/bf_noise'
-output = 'D:\cnnface\Identity_analysis/bf_noise5000.csv'
-picname,picpath,condition = read_Imagefolder(prepath)
+prepath = r'D:\cnnface\Identity_analysis\face_template'
+output = 'D:\cnnface\Identity_analysis/test.csv'
+picpath,condition = read_Imagefolder(prepath)
 # subjectid = os.listdir(prepath)
-# beh_measure = read_boundingbox_from_loosebb(subjectid, picpath)
+# picname = [os.path.base(picpath) for p in picpath]
+# beh_measure = read_boundingbox_from_loosebb(subjectid, picname)
 # ,behavior_measure=beh_measure
 generate_stim_csv(prepath,picpath,condition,output)

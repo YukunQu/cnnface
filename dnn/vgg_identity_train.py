@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from dnnbrain.dnn.io import PicDataset
 from dnnbrain.dnn.models import dnn_train_model
-from cnnface.core.vgg_identity_recons import Vgg_identity
+from cnnface.dnn.vgg_identity_recons import Vgg_identity
 
 
 #prepare data

@@ -10,11 +10,9 @@ class Vgg_identity(Vgg_face):
             param.requires_grad = False
         self.fc8 = nn.Linear(4096,2)
 
-
 #Create and save a new classifier parameters(two class)
 vgg_face = Vgg_face()
 vgg_face.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_face_dag.pth'))
-
 
 in_features = vgg_face.fc8.in_features
 out_features = 2
