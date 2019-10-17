@@ -45,19 +45,19 @@ def generateNoise(img_size,patches,nscale=5):
         length = int(scale/2)
         patch_size = img_size / length
         param = np.random.uniform(-1, 1, size=numpara)
-        param = param.reshape((12,length,length))
-        param = param.repeat(patch_size,axis=1).repeat(patch_size,axis=2)
+        param = param.reshape((12, length, length))
+        param = param.repeat(patch_size, axis=1).repeat(patch_size,axis=2)
         params[scale] = param
 
     noise = [patches[scale] * params[scale] for scale in scales]
     noise = np.array(noise)
-    noise = np.sum(np.sum(noise,axis=0), axis=0)
+    noise = np.sum(np.sum(noise, axis=0), axis=0)
     return noise, params
 
 import matplotlib.pyplot as plt
 patches = generatePatches(512, 5)
 noise,params = generateNoise(512, patches)
-print('min:{},mean:{},max:{}'.format(noise.min(),noise.mean(),noise.max()))
+print('min:{},mean:{},max:{}'.format(noise.min(), noise.mean(), noise.max()))
 plt.hist(noise)
 plt.show()
 noise_img = Image.fromarray(noise)
