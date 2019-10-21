@@ -7,7 +7,7 @@ from cnnface.dnn.vgg_identity_recons import Vgg_identity
 from dnnbrain.dnn.models import dnn_test_model
 
 # load noise image
-imgcsv_path =  'D:\cnnface\Identity_analysis/bf_noise5000.csv'
+imgcsv_path =  r'D:\cnnface\Emotion_analysis/noiseface.csv'
 transform = transforms.Compose([transforms.Resize((224,224)),transforms.ToTensor()])
 PicSet = PicDataset(imgcsv_path, transform)
 Picloader = DataLoader(PicSet, batch_size=32,shuffle=False)
@@ -23,5 +23,5 @@ print('Number of label_0:', label_0.shape)
 print('Number of label_1:', label_1.shape)
 
 # Get and save Classification result
-np.savetxt('D:\cnnface\Identity_analysis/label_ac.txt', label_0)
-np.savetxt('D:\cnnface\Identity_analysis/label_nc.txt', label_1)
+np.savetxt('D:\cnnface\Emotion_analysis\CI_analysis/label_happy.txt', label_0)
+np.savetxt('D:\cnnface\Emotion_analysis\CI_analysis/label_sad.txt', label_1)

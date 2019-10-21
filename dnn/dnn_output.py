@@ -2,6 +2,7 @@ import time
 import numpy as np
 import torch
 
+
 def dnn_ouput(dataloaders,model):
     """
     Get model output and classification probability.

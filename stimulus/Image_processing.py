@@ -75,6 +75,6 @@ def average_img(picpathSet):
 
 def img2gray(r_path,s_path):
     img = Image.open(r_path)
-    img = img.convert('L')
+    img = img.convert('RGB')
     img.save(s_path,quality=95)
 
