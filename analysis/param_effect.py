@@ -16,11 +16,15 @@ condition = np.array(condition)
 dist_prob = param_prob - baseface_prob
 
 dist_params = []
+max_indexs = []
 for param in p_signIndex:
     param = param + 1
     dist_singlePara = dist_prob[condition == param]
+    # dist_singleIndex = condition == param
+    # max_index = [dist_singlePara == dist_max]
     dist_singlePara_max = np.max(np.abs(dist_singlePara))
     dist_params.append(dist_singlePara_max)
+    # max_indexs.append(max_index)
 dist_params = np.array(dist_params)
 
 np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/dist_params.npy',dist_params)

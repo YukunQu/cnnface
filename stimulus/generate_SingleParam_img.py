@@ -10,8 +10,8 @@ import subprocess
 nor = lambda x: (x - x.min()) / (x.max() - x.min())
 baseface = np.array(Image.open(r'/nfs/h1/workingshop/quyukun/DNN/result_data/face_template/frame054_gray_512.jpg')).astype('int64')
 p_signIndex = np.load(r'/nfs/h1/workingshop/quyukun/DNN/result_data/ci/p_signIndex.npy')
-patches = np.load(r'/nfs/h1/workingshop/quyukun/DNN/result_data/ci/patches.npy')
-patchIdx = np.load('/nfs/h1/workingshop/quyukun/DNN/result_data/ci/patchidx.npy').astype('int64')
+patches = np.load(r'D:\cnnface\female_male_test_51_addnoise\Face_template\meta_data/patches.npy')
+patchIdx = np.load(r'D:\cnnface\female_male_test_51_addnoise\Face_template\meta_data/patchidx.npy').astype('int64')
 
 # Generate the 244 face images which contains baseFace and add single parameter noise
 

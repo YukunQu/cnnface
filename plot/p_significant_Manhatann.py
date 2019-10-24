@@ -25,12 +25,12 @@ for i in range(4092):
 
 # plot the manhattan map
 snsplt =sns.swarmplot(x=scale,y=distance)
-
+plt.tick_params(labelsize=12)
 # plot the significant line
 bin = np.arange(0,5)
-y = np.full((5,),distance[2321])
+y = np.full((5,),distance[2216])
 snsplt = sns.lineplot(x=bin,y=y)
 
 fig =snsplt.get_figure()
-fig.savefig('D:\cnnface/female_male_test_51_addnoise\Face_template\CI_analysis/Manhatannx.jpg',dpi=500)
+fig.savefig('D:\cnnface/female_male_test_51_addnoise\Face_template\CI_analysis/Manhatannx.jpg')
 plt.show()

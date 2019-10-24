@@ -54,6 +54,7 @@ def generateNoise(img_size,patches,nscale=5):
     noise = np.sum(np.sum(noise, axis=0), axis=0)
     return noise, params
 
+
 import matplotlib.pyplot as plt
 patches = generatePatches(512, 5)
 noise,params = generateNoise(512, patches)
