@@ -72,8 +72,8 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     return beh_measure
 
 
-prepath = r'D:\cnnface\Emotion_analysis\noiseface'
-output = r'D:\cnnface\Emotion_analysis/noiseface.csv'
+prepath = r'D:\cnnface\Emotion_analysis\noiseface\neu_run1'
+output = r'D:\cnnface\Emotion_analysis/noiseface_neu.csv'
 picpath,condition = read_Imagefolder(prepath)
 # subjectid = os.listdir(prepath)
 # picname = [os.path.base(picpath) for p in picpath]

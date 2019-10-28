@@ -1,13 +1,47 @@
 import numpy as np
 import skimage
-from PIL import Image
+import imagehash
 import matplotlib.pyplot as plt
+from PIL import Image
+from scipy import stats
+from sklearn import metrics as mr
 
-import cv2, os
+import cv2
+import os
 from tqdm import tqdm
 
 
-def img_r2(img1, img2):
+def img_similarity(img1, img2, method):
+    """calculate the similarity of two images
+
+    Parameters
+    -----------------------------------------
+    img1[array]: 2d array of image
+    img2[array]: 2d array of image
+    method[string]: the method to calculate the similarity
+                    'pearson',pearson correlation coefficient
+                    'SSIM', Structural Similarity Index
+                    'MI', Mutual Information
+                    'cosin', sis
+                    'ahash' average Hash value
+    Return:
+    ----------------------------------------
+
+
+    """
+    if method == 'pearson':
+        img1 = img1.reshape(-1)
+        img2 = img2.reshape(-1)
+        r, p = stats.pearsonr(img1, img2)
+    elif method == 'SSIM':
+        mssim = skimage.measure.compare_ssim(img1,img2)
+    elif method == 'MI':
+        mi = mr.mutual_info_score(img1,img2)
+    elif method == 'ahash':
+        pass
+    else:
+        print('The method has not be supported. please input pearson or SSIM or MI or ahash')
+
     pass
 
 
@@ -38,20 +72,20 @@ def image_add_gaussian_noise(Image,std):
 
     image_arr = np.array(Image)
     var = std ** 2
-    noise_gs_img = skimage.util.random_noise(image_arr,mode='gaussian',clip=True,var=var)
+    noise_gs_img = skimage.util.random_noise(image_arr,mode='gaussian',clip=True, var=var)
     noise_gs_img = Image.fromarray((noise_gs_img*255).astype('uint8'))
     return noise_gs_img
 
 
-def cal_img_ms(image_path):
+def cal_img_ms(images_path):
     """calculate mean and std of the input images
     image_path[str]: images' folder path
 
     """
-    img_filenames = os.listdir(image_path)
+    img_filenames = os.listdir(images_path)
     m_list, s_list = [], []
     for img_filename in tqdm(img_filenames):
-        img = cv2.imread(image_path + '/' + img_filename)
+        img = cv2.imread(images_path + '/' + img_filename)
         img = img
         m, s = cv2.meanStdDev(img)
         m_list.append(m.reshape((3,)))
@@ -78,3 +112,8 @@ def img2gray(r_path,s_path):
     img = img.convert('RGB')
     img.save(s_path,quality=95)
 
+
+def nor(img_arr):
+    """ normalize 2d image"""
+    img_arr_nor = (img_arr - img_arr.min()) / (img_arr.max() - img_arr.min())
+    return img_arr_nor

@@ -55,11 +55,18 @@ def generateNoise(img_size,patches,nscale=5):
     return noise, params
 
 
-import matplotlib.pyplot as plt
-patches = generatePatches(512, 5)
-noise,params = generateNoise(512, patches)
-print('min:{},mean:{},max:{}'.format(noise.min(), noise.mean(), noise.max()))
-plt.hist(noise)
-plt.show()
-noise_img = Image.fromarray(noise)
-noise_img.show()
+def generateCI(patches,patchIdx,param):
+    patchParam = param[(patchIdx - 1).reshape(-1)].reshape(patchIdx.shape)
+    noise = np.sum(patches * patchParam, axis=2)
+    return noise
+
+
+if __name__=='__main__':
+    import matplotlib.pyplot as plt
+    patches = generatePatches(512, 5)
+    noise,params = generateNoise(512, patches)
+    print('min:{},mean:{},max:{}'.format(noise.min(), noise.mean(), noise.max()))
+    plt.hist(noise)
+    plt.show()
+    noise_img = Image.fromarray(noise)
+    noise_img.show()

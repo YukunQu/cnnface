@@ -34,6 +34,6 @@ for index in p_signIndex:
         print('Testing complete in {:.0f}m {:.0f}s'.format(cost_time // 60, cost_time % 60))
 
 end = time.time()
-cost_time = end -start
+cost_time = end - start
 print('Testing complete in {:.0f}m {:.0f}s'.format(cost_time // 60, cost_time % 60))
 
