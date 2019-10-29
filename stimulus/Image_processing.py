@@ -23,26 +23,33 @@ def img_similarity(img1, img2, method):
                     'SSIM', Structural Similarity Index
                     'MI', Mutual Information
                     'cosin', sis
-                    'ahash' average Hash value
+                    'dhash'  Hash value
     Return:
     ----------------------------------------
 
 
     """
+    similarity = dict()
     if method == 'pearson':
         img1 = img1.reshape(-1)
         img2 = img2.reshape(-1)
         r, p = stats.pearsonr(img1, img2)
+        similarity['r'] = r
+        similarity['p'] = p
     elif method == 'SSIM':
-        mssim = skimage.measure.compare_ssim(img1,img2)
+        ssim = skimage.measure.compare_ssim(img1,img2)
+        similarity['SSIM'] = ssim
     elif method == 'MI':
         mi = mr.mutual_info_score(img1,img2)
+        similarity['MI'] = mi
     elif method == 'ahash':
-        pass
+        hash1 = imagehash.dhash(img1)
+        hash2 = imagehash.dhash(img2)
+        dhash = hash1 - hash2
+        similarity['dhash'] = dhash
     else:
-        print('The method has not be supported. please input pearson or SSIM or MI or ahash')
-
-    pass
+        print('The method has not be supported. please input pearson or SSIM or MI or dhash')
+    return similarity
 
 
 def image_freq_hist_plot(image_path):
