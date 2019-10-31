@@ -11,7 +11,7 @@ import os
 from tqdm import tqdm
 
 
-def img_similarity(img1, img2, method):
+def img_similarity(img1, img2, method, r_p=False):
     """calculate the similarity of two images
 
     Parameters
@@ -26,27 +26,42 @@ def img_similarity(img1, img2, method):
                     'dhash'  Hash value
     Return:
     ----------------------------------------
-
-
+    similarity[dict]： the dictionary contains many similarity index.
     """
-    similarity = dict()
+    if img1.shape != img2.shape:
+        print('The image size should be the same.')
+
     if method == 'pearson':
         img1 = img1.reshape(-1)
         img2 = img2.reshape(-1)
         r, p = stats.pearsonr(img1, img2)
-        similarity['r'] = r
-        similarity['p'] = p
+        if r_p == False:
+            similarity = r
+        else:
+            similarity = (r, p)
+    elif method == 'spearmanr':
+        img1 = img1.reshape(-1)
+        img2 = img2.reshape(-1)
+        r, p = stats.spearmanr(img1, img2)
+        if r_p == False:
+            similarity = r
+        else:
+            similarity = (r, p)
     elif method == 'SSIM':
         ssim = skimage.measure.compare_ssim(img1,img2)
-        similarity['SSIM'] = ssim
+        similarity = ssim
     elif method == 'MI':
+        img1 = img1.reshape(-1)
+        img2 = img2.reshape(-1)
         mi = mr.mutual_info_score(img1,img2)
-        similarity['MI'] = mi
-    elif method == 'ahash':
+        similarity = mi
+    elif method == 'dhash':
+        img1 = Image.fromarray(img1)
+        img2 = Image.fromarray(img2)
         hash1 = imagehash.dhash(img1)
         hash2 = imagehash.dhash(img2)
         dhash = hash1 - hash2
-        similarity['dhash'] = dhash
+        similarity = dhash
     else:
         print('The method has not be supported. please input pearson or SSIM or MI or dhash')
     return similarity

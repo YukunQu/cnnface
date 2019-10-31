@@ -28,7 +28,7 @@ def generatePatches(img_size,nscale=5):
                 sinusoid = generateSingleSinusoid(patch_size, a, p)
                 sinusoid_combined.append(sinusoid)
         patch = np.array(sinusoid_combined)
-        patch = np.tile(patch,(1,length,length))
+        patch = np.tile(patch, (1, length, length))
         patches[scale] = patch
 
     return patches
@@ -55,7 +55,13 @@ def generateNoise(img_size,patches,nscale=5):
     return noise, params
 
 
-def generateCI(patches,patchIdx,param):
+def generateCI(param, patch='default'):
+    if patch == 'default':
+        patches = np.load(r'D:\cnnface/patches.npy')
+        patchIdx = np.load(r'D:\cnnface/patchidx.npy').astype('int32')
+    else:
+        patches = patch['patches']
+        patchIdx = patch['patchIdx']
     patchParam = param[(patchIdx - 1).reshape(-1)].reshape(patchIdx.shape)
     noise = np.sum(patches * patchParam, axis=2)
     return noise

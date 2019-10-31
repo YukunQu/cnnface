@@ -42,3 +42,34 @@ def dnn_ouput(dataloaders,model):
     time_elapsed = time.time() - time0
     print('Testing complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
     return label, label_prob, dnn_act
+
+
+if __name__=='__main__':
+
+    from torchvision import transforms
+    from dnnbrain.dnn.io import PicDataset, DataLoader
+    from cnnface.dnn.model_reconstruct import Vgg_identity
+
+    # load model
+    vggid = Vgg_identity()
+    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_identiy2_CrossEntro.pth'))
+
+    # load data
+    imgcsv_path = r'D:\cnnface\Emotion_analysis/noiseface_neu.csv'
+    transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
+    PicSet = PicDataset(imgcsv_path, transform)
+    Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
+
+    # Get Classification result and activaiton of dnn
+    label, label_prob, dnn_act = dnn_ouput(Picloader, vggid)
+
+    # Get and save Classification result of stimuli
+    label_0 = np.argwhere(label == 0).astype('int64')
+    label_1 = np.argwhere(label == 1).astype('int64')
+    print('Number of label_0:', label_0.shape)
+    print('Number of label_1:', label_1.shape)
+    np.savetxt('D:\cnnface\Emotion_analysis\CI_analysis/neu_label_happy.txt', label_0)
+    np.savetxt('D:\cnnface\Emotion_analysis\CI_analysis/neu_label_sad.txt', label_1)
+
+    # save classification probability of stimuli
+    np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/label_prob', label_prob)
