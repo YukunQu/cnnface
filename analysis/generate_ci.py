@@ -30,7 +30,7 @@ def cal_ci(param_n, label):
     return param_ci
 
 
-def generateCI(param, patch='default', level='all'):
+def generateCI(param, patch='default', level='all', scale=None):
     """
     Generate the classification image from parameters of ci.
 

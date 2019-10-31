@@ -44,6 +44,8 @@ scale8_pSign = p_signIndex[(p_signIndex>=60) & (p_signIndex<252)]
 scale16_pSign = p_signIndex[(p_signIndex>=252) & (p_signIndex<1020)]
 scale32_pSign = p_signIndex[(p_signIndex>=1020) & (p_signIndex<4092)]
 
+pSign_num = [len(scale2_pSign),len(scale4_pSign),len(scale8_pSign),len(scale16_pSign),
+             len(scale32_pSign)]
 pSign_prop = [len(scale2_pSign)/12,len(scale4_pSign)/48,len(scale8_pSign)/192,
               len(scale16_pSign)/768,len(scale32_pSign)/3072]
 bins = ['scale2','scale4','scale8', 'scale16', 'scale32']

@@ -3,7 +3,7 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from cnnface.stimulus.generate_noise_img import generateCI
+from cnnface.analysis.generate_ci import generateCI
 
 p_signIndex = np.load(r'D:\cnnface/female_male_test_51_addnoise\Face_template\CI_analysis/p_signIndex.npy')
 dist_param = np.load(r'D:\cnnface\female_male_test_51_addnoise\frame054/dist_params.npy')
