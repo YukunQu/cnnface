@@ -63,13 +63,6 @@ if __name__=='__main__':
     # Get Classification result and activaiton of dnn
     label, label_prob, dnn_act = dnn_ouput(Picloader, vggid)
 
-    # Get and save Classification result of stimuli
-    label_0 = np.argwhere(label == 0).astype('int64')
-    label_1 = np.argwhere(label == 1).astype('int64')
-    print('Number of label_0:', label_0.shape)
-    print('Number of label_1:', label_1.shape)
-    np.savetxt('D:\cnnface\Emotion_analysis\CI_analysis/neu_label_happy.txt', label_0)
-    np.savetxt('D:\cnnface\Emotion_analysis\CI_analysis/neu_label_sad.txt', label_1)
-
-    # save classification probability of stimuli
-    np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/label_prob', label_prob)
+    # save Classification result and classification probability
+    np.save('D:\cnnface\Emotion_analysis\CI_analysis/neu_label_emotion.npy', label)
+    np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/label_prob.npy', label_prob)

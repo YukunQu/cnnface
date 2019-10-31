@@ -50,3 +50,5 @@ bins = ['scale2','scale4','scale8', 'scale16', 'scale32']
 
 sns.barplot(bins,pSign_prop)
 plt.savefig(r'D:\cnnface\Emotion_analysis\CI_analysis\para_significant/neutral/pSing_prop.jpg')
+
+# bar chart for proportion of significant parameters

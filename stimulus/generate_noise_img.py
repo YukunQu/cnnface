@@ -55,18 +55,6 @@ def generateNoise(img_size,patches,nscale=5):
     return noise, params
 
 
-def generateCI(param, patch='default'):
-    if patch == 'default':
-        patches = np.load(r'D:\cnnface/patches.npy')
-        patchIdx = np.load(r'D:\cnnface/patchidx.npy').astype('int32')
-    else:
-        patches = patch['patches']
-        patchIdx = patch['patchIdx']
-    patchParam = param[(patchIdx - 1).reshape(-1)].reshape(patchIdx.shape)
-    noise = np.sum(patches * patchParam, axis=2)
-    return noise
-
-
 if __name__=='__main__':
     import matplotlib.pyplot as plt
     patches = generatePatches(512, 5)

@@ -17,5 +17,3 @@ scale[(p_signIndex>=1020) & (p_signIndex<4092)] = 32
 sns.swarmplot(x=scale,y=dist_param)
 plt.tick_params(labelsize=14)
 plt.show()
-
-
