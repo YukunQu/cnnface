@@ -2,6 +2,7 @@ import numpy as np
 import skimage
 import imagehash
 import matplotlib.pyplot as plt
+import seaborn as sns
 from PIL import Image
 from scipy import stats
 from sklearn import metrics as mr
@@ -73,7 +74,9 @@ def image_freq_hist_plot(image_path):
     image = Image.open(image_path)
     image_array = np.array(image)
     image_array = image_array.reshape(-1)
-    plt.hist(image_array, 255)
+    image_array = np.nonzero(image_array)
+    sns.distplot(image_array, 255)
+    plt.show()
 
 
 def image_power_spectrum(Image_path):

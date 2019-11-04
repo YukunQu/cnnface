@@ -71,12 +71,12 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     beh_measure = {'left_coord':left_coord,'upper_coord':upper_coord,'right_coord':right_coord,'lower_coord':lower_coord}
     return beh_measure
 
-
-prepath = r'D:\cnnface\Emotion_analysis\noiseface\neu_run1'
-output = r'D:\cnnface\Emotion_analysis/noiseface_neu.csv'
-picpath,condition = read_Imagefolder(prepath)
-# subjectid = os.listdir(prepath)
-# picname = [os.path.base(picpath) for p in picpath]
-# beh_measure = read_boundingbox_from_loosebb(subjectid, picname)
-# ,behavior_measure=beh_measure
-generate_stim_csv(prepath,picpath,condition,output)
+if __name__ == '__main__':
+    prepath = r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI\68'
+    output = r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI\68.csv'
+    picpath,condition = read_Imagefolder(prepath)
+    # subjectid = os.listdir(prepath)
+    # picname = [os.path.base(picpath) for p in picpath]
+    # beh_measure = read_boundingbox_from_loosebb(subjectid, picname)
+    # ,behavior_measure=beh_measure
+    generate_stim_csv(prepath,picpath,condition,output)

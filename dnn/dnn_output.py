@@ -36,9 +36,9 @@ def dnn_ouput(dataloaders,model):
             dnn_act.extend(dnn_act_part.cpu().numpy())
             label.extend(label_part.cpu().numpy())
             label_prob.extend(label_prob_part.cpu().numpy())
-    label = np.array(label)
-    label_prob = np.array(label_prob)
-    dnn_act = np.array(dnn_act)
+    label = np.squeeze(np.array(label))
+    label_prob = np.squeeze(np.array(label_prob))
+    dnn_act = np.squeeze(np.array(dnn_act))
     time_elapsed = time.time() - time0
     print('Testing complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
     return label, label_prob, dnn_act
@@ -52,10 +52,10 @@ if __name__=='__main__':
 
     # load model
     vggid = Vgg_identity()
-    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_identiy2_CrossEntro.pth'))
+    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_male_female_CrossEntro.pth'))
 
     # load data
-    imgcsv_path = r'D:\cnnface\Emotion_analysis/noiseface_neu.csv'
+    imgcsv_path = r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI\68.csv'
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     PicSet = PicDataset(imgcsv_path, transform)
     Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
@@ -64,5 +64,6 @@ if __name__=='__main__':
     label, label_prob, dnn_act = dnn_ouput(Picloader, vggid)
 
     # save Classification result and classification probability
-    np.save('D:\cnnface\Emotion_analysis\CI_analysis/neu_label_emotion.npy', label)
-    np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/label_prob.npy', label_prob)
+    np.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI/68_label.npy', label)
+    np.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI/68_label_prob.npy', label_prob)
+    np.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI/68_act.npy', dnn_act)

@@ -1,4 +1,5 @@
 import numpy as np
+from PIL import Image
 
 
 def cal_ci(param_n, label):
@@ -30,7 +31,7 @@ def cal_ci(param_n, label):
     return param_ci
 
 
-def generateCI(param, patch='default', level='all', scale=None):
+def generateCI(param,  level='sum', patch='default'):
     """
     Generate the classification image from parameters of ci.
 
@@ -57,15 +58,74 @@ def generateCI(param, patch='default', level='all', scale=None):
     patchParam = param[(patchIdx - 1).reshape(-1)].reshape(patchIdx.shape)
     ci_multilevel = patches * patchParam
 
-    if level == 'all':
+    if level == 'sum':
         ci = np.sum(ci_multilevel, axis=2)
     elif isinstance(level, tuple) or isinstance(level, list):
         ci = []
         slice_index = {2: 0, 4: 12, 8: 24, 16: 32, 32: 48}
         for i in level:
             index = slice_index[i]
-            ci_level = np.sum(patches[:, :, index:index+12] * patchIdx[:, :, index:index+12], axis=2)
+            ci_level = np.sum(patches[:, :, index:index+12] * patchParam[:, :, index:index+12], axis=2)
             ci.append(ci_level)
+        ci = np.array(ci)
     else:
         print('The level should be the list of space frequency.')
     return ci
+
+
+def recon_face(baseface, ci, scale=1.0):
+    """
+    Reconstruct face from baseface and ci
+
+    Parameter:
+    ---------------------------------------------------------------------------------------------
+    baseface[PIL]: PIL file contains the baseface
+    ci[array]: 2D array, contains the classification image which can be generated from generateCI
+
+    Return:
+    ---------------------------------------------------------------------------------------------
+    img_add,img_sub[PIL]: reconstruct face
+    """
+    baseface = np.array(baseface).astype('float64')
+
+    ci_scale = ci * scale
+    bf_add = baseface + ci_scale
+    bf_sub = baseface - ci_scale
+
+    bf_add[bf_add > 255] = 255
+    bf_add[bf_add < 0] = 0
+    bf_sub[bf_sub > 255] = 255
+    bf_sub[bf_sub < 0] = 0
+
+    img_add = Image.fromarray(bf_add.astype('int8')).convert('L')
+    img_sub = Image.fromarray(bf_sub.astype('int8')).convert('L')
+    return img_add, img_sub
+
+
+#%%
+import numpy as np
+from PIL import Image
+from cnnface.analysis.generate_ci import generateCI,recon_face
+
+param_ci = np.load(r'D:\cnnface\female_male_test_51_addnoise\Face_template\meta_data/paras_ci.npy')
+cis = generateCI(param_ci,level=(2,4,8,16,32))
+cis_34 = cis * 34
+cis_68 = cis * 68
+
+baseface = Image.open(r'D:\cnnface\female_male_test_51_addnoise\frame054/frame054_gray_512.jpg')
+level=(2,4,8,16,32)
+
+for i, l in enumerate(level):
+    print(cis_34[i,:,:].shape)
+    img_add, img_sub = recon_face(baseface, cis_34[i, :, :])
+    img_add.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI//34/bf_add_%04d.jpg' % l)
+    img_sub.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI//34/bf_sub_%04d.jpg' % l)
+
+for i, l in enumerate(level):
+    print(cis_68[i,:,:].max())
+    print(cis_68[i, :, :].min())
+    img_add, img_sub = recon_face(baseface, cis_68[i, :, :])
+    img_add.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI//68/bf_add_%04d.jpg' % l)
+    img_sub.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI//68/bf_sub_%04d.jpg' % l)
+
+
