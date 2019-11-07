@@ -59,6 +59,8 @@ def read_boundingbox_from_loosebb(subjectid,picname):
     for i,picname in enumerate(name_id):
         if i==0:
             pic_boundingbox = sub_boundingbox[sub_boundingbox["NAME_ID"].str.contains(picname)]
+            #sub_boundingbox[sub_boundingbox["NAME_ID"].isin(name_id)]
+            # 还有一个问题，虽然取出了name_id存在的列，但是顺序并不一定是跟name_id一致的。这个程序后面还得跑一遍，但速度会快很多。
         else:
             pic_boundingbox_suffix = sub_boundingbox[sub_boundingbox["NAME_ID"].str.contains(picname)]
             pic_boundingbox = pd.concat([pic_boundingbox,pic_boundingbox_suffix])
