@@ -27,4 +27,4 @@ for param in p_signIndex:
     # max_indexs.append(max_index)
 dist_params = np.array(dist_params)
 
-np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/dist_params.npy',dist_params)
+np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/dist_params.npy', dist_params)

@@ -49,13 +49,15 @@ if __name__=='__main__':
     from torchvision import transforms
     from dnnbrain.dnn.io import PicDataset, DataLoader
     from cnnface.dnn.model_reconstruct import Vgg_identity
+    import seaborn as sns
+    import matplotlib.pyplot as plt
 
     # load model
     vggid = Vgg_identity()
-    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_male_female_CrossEntro.pth'))
+    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_gender_CrossEntro.pth'))
 
     # load data
-    imgcsv_path = r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI\68.csv'
+    imgcsv_path = r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_level\68.csv'
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     PicSet = PicDataset(imgcsv_path, transform)
     Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
@@ -64,6 +66,6 @@ if __name__=='__main__':
     label, label_prob, dnn_act = dnn_ouput(Picloader, vggid)
 
     # save Classification result and classification probability
-    np.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI/68_label.npy', label)
-    np.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI/68_label_prob.npy', label_prob)
-    np.save(r'D:\cnnface\female_male_test_51_addnoise\Face_template\classification_noise\different_level_CI/68_act.npy', dnn_act)
+    np.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_level/68_label.npy', label)
+    np.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_level/68_label_prob.npy', label_prob)
+    np.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_level/68_act.npy', dnn_act)
