@@ -5,23 +5,24 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from cnnface.analysis.generate_ci import generateCI
 
-p_signIndex = np.load(r'D:\cnnface/female_male_test_51_addnoise\Face_template\CI_analysis/p_signIndex.npy')
+p_signIndex = np.load(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/p_signIndex.npy')
 dist_param = np.load(r'D:\cnnface\female_male_test_51_addnoise\frame054/dist_params.npy')
 
-highEffectPara = np.argwhere(dist_param >= 0.4)
-highEffectParaIndex = p_signIndex[highEffectPara]
+# highEffectPara = np.argwhere(dist_param >= 0.4)
+# highEffectParaIndex = p_signIndex[highEffectPara]
 
 patches = np.load(r'D:\cnnface\female_male_test_51_addnoise\Face_template\meta_data/patches.npy')
 patchIdx = np.load(r'D:\cnnface\female_male_test_51_addnoise\Face_template\meta_data/patchidx.npy').astype('int64')
 
-params_ci = np.load('D:\cnnface/female_male_test_51_addnoise\Face_template\meta_data/paras_ci.npy')
+params_ci = np.load('D:\cnnface\gender_analysis\CI_analysis/param_ci.npy')
 param = np.zeros(4092)
-for i in highEffectParaIndex:
+for i in p_signIndex:
     param[i] = params_ci[i]
 
-ci = generateCI(patches, patchIdx, param)
+ci = generateCI(param)
 
-sns.heatmap(ci)
+plt.imshow(ci*90,cmap='jet')
+plt.show()
 
 # %%
 

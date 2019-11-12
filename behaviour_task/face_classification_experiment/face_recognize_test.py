@@ -29,10 +29,12 @@ with open(fileSavePath, 'a') as f:
     f.write(info['姓名']+','+info['年龄']+','+info['性别']+','+info['task']+',')
 
 # material prepare
+event.globalKeys.add('q', core.quit, name='shutdown')
+
 win = visual.Window(size=(1600, 1200), color=(0, 0, 0), fullscr=False, gammaErrorPolicy='ignore')
 rscale = visual.RatingScale(win, choices=['很可能是女性', '也许是女性', '也许是男性', '很可能是男性'],
-                            textSize=0.45, pos=[0, -0.6], markerColor='DarkRed', singleClick=True, minTime=0.3,
-                            respKeys=['z','x','n','m'])
+                            textSize=0.45, pos=[0, -0.6],markerColor='white', singleClick=True, minTime=0,
+                            respKeys=['z','x','n','m'],noMouse=True,markerStart=-3)
 
 pre_text_1 = '实验即将开始，请判断接下来每一张面孔是男性还是女性'
 text_1 = visual.TextStim(win, text=pre_text_1, pos=(0, 0), color=(-1, -1, -1), height=0.07, bold=True)
@@ -62,8 +64,7 @@ for img in images_path:
     win.flip()
     core.wait(1)
     rscale.reset()
-    timer = core.CountdownTimer(2)
-    while timer.getTime() > 0:
+    while rscale.noResponse:
         rscale.draw()
         win.flip()
     rating = rscale.getRating()

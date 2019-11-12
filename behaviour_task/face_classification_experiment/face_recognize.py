@@ -63,8 +63,7 @@ for i,img in enumerate(images_path):
     win.flip()
     core.wait(1)
     rscale.reset()
-    timer = core.CountdownTimer(2)
-    while timer.getTime() > 0:
+    while rscale.noResponse:
         rscale.draw()
         win.flip()
     rating = rscale.getRating()
