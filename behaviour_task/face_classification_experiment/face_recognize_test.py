@@ -6,7 +6,7 @@ from psychopy import visual, core, event, gui
 
 
 # set path of experiment
-prePath = r'D:\Exp\faceRepresentationExp\test'
+prePath = r'F:\exp\faceinnoise\test'
 
 # subject information recorded and task selected
 info = {'姓名': '', '年龄': '', '性别': ['女', '男'], 'task': ['gender', 'Emotion', 'Identity']}
@@ -38,7 +38,8 @@ pre_text_1 = '实验即将开始，请判断接下来每一张面孔是男性还
 text_1 = visual.TextStim(win, text=pre_text_1, pos=(0, 0), color=(-1, -1, -1), height=0.07, bold=True)
 pre_text_2 = '如果准备好，请按任意键开始'
 text_2 = visual.TextStim(win, text=pre_text_2, pos=(0, -0.2), color=(-1, -1, -1), height=0.07, bold=True)
-pic = visual.ImageStim(win)
+pic = visual.ImageStim(win, size=(1,1.77))
+# 1
 ratings = []
 RTs = []
 target_label = []
@@ -60,7 +61,7 @@ for img in images_path:
     pic.image = img
     pic.draw()
     win.flip()
-    core.wait(1)
+    core.wait(60)
     rscale.reset()
     while rscale.noResponse:
         rscale.draw()

@@ -5,7 +5,7 @@ from PIL import Image
 def generateSingleSinusoid(img_size, angle, phase):
     angle = np.radians(angle)
     sinepath = (np.linspace(0,2,img_size))[:,np.newaxis].repeat(img_size,axis=1)
-    sinusoid = (sinepath*np.sin(angle) + sinepath.T*np.cos(angle)) * 2 *np.pi
+    sinusoid = (sinepath*np.sin(angle) + sinepath.T*np.cos(angle)) * 2 * np.pi
     sinusoid = np.sin(sinusoid + phase)
 
     return sinusoid

@@ -60,7 +60,7 @@ for i,img in enumerate(images_path):
         core.wait(60)
         next_stage.draw()
         win.flip()
-        core.wait(5)
+        core.wait(10)
     pic.image = img
     pic.draw()
     win.flip()

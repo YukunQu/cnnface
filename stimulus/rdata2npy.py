@@ -15,25 +15,16 @@ import rpy2.robjects as robjects
 import numpy as np
 
 
-robjects.r['load'](r"D:\cnnface\gender_analysis\noise_stimulus\metadata/part1.Rdata")
-params1000 = np.array(robjects.r['stimuli_params'][0])
+for i in range(1,21):
+    rdata = r"D:\cnnface\gender_analysis\noise_stimulus\metadata/part{}.Rdata".format(i)
+    robjects.r['load'](rdata)
+    params_part = np.array(robjects.r['stimuli_params'][0])
+    if i == 1:
+        params_20000 = params_part
+    else:
+        params_20000 = np.concatenate((params_20000, params_part), axis=0)
 
-robjects.r['load'](r"D:\cnnface\gender_analysis\noise_stimulus\metadata/part2.Rdata")
-params2000 = np.array(robjects.r['stimuli_params'][0])
-
-robjects.r['load'](r"D:\cnnface\gender_analysis\noise_stimulus\metadata/part3.Rdata")
-params3000 = np.array(robjects.r['stimuli_params'][0])
-
-robjects.r['load'](r"D:\cnnface\gender_analysis\noise_stimulus\metadata/part4.Rdata")
-params4000 = np.array(robjects.r['stimuli_params'][0])
-
-robjects.r['load'](r"D:\cnnface\gender_analysis\noise_stimulus\metadata/part5.Rdata")
-params5000 = np.array(robjects.r['stimuli_params'][0])
-
-params_5000 = np.concatenate((params1000, params2000, params3000, params4000, params5000), axis=0)
-
-np.save(r'D:\cnnface\gender_analysis\noise_stimulus\metadata/params_5000', params_5000)
-
+np.save(r'D:\cnnface\gender_analysis\noise_stimulus\metadata/params_20000', params_20000)
 
 #%%
 # convert patches and patchIdx to npy file
