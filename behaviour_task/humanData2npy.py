@@ -19,7 +19,7 @@ if __name__ == '__main__':
     label_sum = []
     param_exp = []
     names = []
-    for i in range(1, 6):
+    for i in range(1,12):
         part_path = prepath.format(i)
         part_sub = os.listdir(part_path)
         for sub in part_sub:
@@ -32,5 +32,6 @@ if __name__ == '__main__':
             param_exp.extend(param_sub)
     label_sum = np.array(label_sum)
     param_exp = np.array(param_exp)
-    np.save(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/label_sumxx.npy', label_sum)
-    np.save(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/param_expxx.npy', param_exp)
+    np.save(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/subject_name.npy', names)
+    np.save(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/label_sum.npy', label_sum)
+    np.save(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/param_exp.npy', param_exp)

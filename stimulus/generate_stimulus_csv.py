@@ -75,8 +75,8 @@ def read_boundingbox_from_loosebb(subjectid,picname):
 
 
 if __name__ == '__main__':
-    prepath = r'J:\face in noise\faceRepresentationExp\exp\stimulus\gender\part12'
-    output = r'J:\face in noise\faceRepresentationExp\exp\stimulus\gender\part12.csv'
+    prepath = r'D:\cnnface\gender_analysis\face_template\gray'
+    output = r'D:\cnnface\gender_analysis\face_template\gray.csv'
     picpath,condition = read_Imagefolder(prepath)
     # subjectid = os.listdir(prepath)
     # picname = [os.path.base(picpath) for p in picpath]

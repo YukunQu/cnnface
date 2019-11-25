@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 sns.set_style('darkgrid')
 
 # prepare data
-p_signIndex = np.load(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/p_signIndex.npy')
-distance = np.load(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/cohensd_sum.npy')
+p_signIndex = np.load(r'D:\cnnface\gender_analysis\human_result\para_significant/p_signIndex.npy')
+distance = np.load(r'D:\cnnface\gender_analysis\human_result\para_significant/cohensd_sum.npy')
 distance = np.abs(distance)
-p_minsignIndex = np.load(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/p_minsignIndex.npy')
+p_minsignIndex = np.load(r'D:\cnnface\gender_analysis\human_result\para_significant/p_minsignIndex.npy')
 
 scale2 = ['scale2'] * 12
 scale4 = ['scale4'] * 48
@@ -36,11 +36,11 @@ y = np.full((5,),distance[p_minsignIndex])
 snsplt = sns.lineplot(x=bin,y=y)
 
 fig = snsplt.get_figure()
-fig.savefig(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/cohensd_Manhatannx.jpg')
+fig.savefig(r'D:\cnnface\gender_analysis\human_result\para_significant/cohensd_Manhatannx.jpg')
 plt.show()
 
 #bar chart for proportion of significant parameters
-scale2_pSign = p_signIndex[p_signIndex<12 ]
+scale2_pSign = p_signIndex[p_signIndex<12]
 scale4_pSign = p_signIndex[(p_signIndex>=12) & (p_signIndex<60)]
 scale8_pSign = p_signIndex[(p_signIndex>=60) & (p_signIndex<252)]
 scale16_pSign = p_signIndex[(p_signIndex>=252) & (p_signIndex<1020)]
@@ -53,5 +53,4 @@ pSign_prop = [len(scale2_pSign)/12,len(scale4_pSign)/48,len(scale8_pSign)/192,
 bins = ['scale2','scale4','scale8', 'scale16', 'scale32']
 
 sns.barplot(bins,pSign_prop)
-plt.savefig(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/pSing_prop.jpg')
-
+plt.savefig(r'D:\cnnface\gender_analysis\human_result\para_significant/pSing_prop.jpg')

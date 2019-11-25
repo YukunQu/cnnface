@@ -6,11 +6,11 @@ import pandas as pd
 
 
 # load classification probability of baseFace
-baseface_prob = np.load(r'D:\cnnface\female_male_test_51_addnoise\frame054/baseface_prob.npy')
-param_prob = np.load(r'D:\cnnface\female_male_test_51_addnoise\frame054/params_prob.npy')
+baseface_prob = np.load(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/baseface_prob.npy')
+param_prob = np.load(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/gender_label_pro_singlePara.npy')
 
-p_signIndex = np.load(r'D:\cnnface\female_male_test_51_addnoise\Face_template\CI_analysis/p_signIndex.npy')
-condition = pd.read_csv(r'D:\cnnface\female_male_test_51_addnoise/SingleParameter_image.csv', skiprows=1)['condition']
+p_signIndex = np.load(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/p_signIndex.npy')
+condition = pd.read_csv(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/single_param_img.csv', skiprows=1)['condition']
 condition = np.array(condition)
 # calculate the probability result of baseface
 dist_prob = param_prob - baseface_prob
@@ -27,4 +27,4 @@ for param in p_signIndex:
     # max_indexs.append(max_index)
 dist_params = np.array(dist_params)
 
-np.save(r'D:\cnnface\female_male_test_51_addnoise\frame054/dist_params.npy', dist_params)
+np.save(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/dist_params.npy', dist_params)

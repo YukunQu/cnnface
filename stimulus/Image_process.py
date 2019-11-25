@@ -68,12 +68,10 @@ def img_similarity(img1, img2, method, r_p=False):
     return similarity
 
 
-def image_freq_hist_plot(image_path):
+def image_freq_hist_plot(image_arr):
     # plot the frequency histogram of pixel values of image
 
-    image = Image.open(image_path)
-    image_array = np.array(image)
-    image_array = image_array.reshape(-1)
+    image_array = image_arr.reshape(-1)
     image_array = np.nonzero(image_array)
     sns.distplot(image_array, 255)
     plt.show()
