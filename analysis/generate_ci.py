@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image
 
 
-def cal_ci(param_n, label, subjectId = () , subjtrials=1000):
+def cal_paramci(param_n, label, subjectid=(), subjtrials=1000):
     """
     Calculate the ci from noise parameters of n trails and classification label
 
@@ -10,15 +10,15 @@ def cal_ci(param_n, label, subjectId = () , subjtrials=1000):
     ---------------------------------------------------------------------------
     param_n[array]: 2D array, trials x 4092. 4092 is parameters for generating the noise
     label[array]: 1D array, shape:(trails,) The label contains classification result of dnn
-
+    subjectid[list], The parameter works with subjtrials. The list contains subject id to calculate the paramci.
     Return：
     ---------------------------------------------------------------------------
     param_ci[array]:1D array
     """
-    if len(subjectId) != 0 :
+    if len(subjectid) != 0:
         Index = []
-        for i in subjectId:
-            Index.extend(range((i-1)*subjtrials,i*subjtrials))
+        for i in subjectid:
+            Index.extend(range((i-1)*subjtrials, i*subjtrials))
         label = label[Index]
         param_n = param_n[Index]
 
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     param = np.load(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/param_exp.npy')
     label = np.load(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/label_sum.npy')
 
-    param_ci = cal_ci(param, label)
+    param_ci = cal_paramci(param, label)
 
     np.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img/param_ci_cnn.npy', param_ci)
 

@@ -14,25 +14,24 @@ import matplotlib.pyplot as plt
 import os
 from sklearn.decomposition import PCA
 from cnnface.stimulus.Image_process import nor
-from cnnface.analysis.generate_ci import generateCI,cal_ci
+from cnnface.analysis.generate_ci import generateCI,cal_paramci
 import itertools
 
-
 # generate the all CIs from human experiment data
-label_exp = np.load(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/label_sum.npy')
-param_exp = np.load(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/param_exp.npy')
+label_exp = np.load(r'D:\cnnface\gender_analysis\noise_stimulus\label/gender_label_20000.npy')
+param_exp = np.load(r'D:\cnnface\gender_analysis\noise_stimulus\metadata/params_20000.npy')
 subID = list(range(1,17))
 idCom_all = list(itertools.combinations(subID,1))
 idComExcept = [list(set(subID).difference(set(id))) for id in idCom_all]
 ci_com = []
 for id_com in idCom_all:
-    param_ci = cal_ci(param_exp,label_exp,id_com)
+    param_ci = cal_paramci(param_exp,label_exp,id_com)
     ci = nor(generateCI(param_ci))
     ci_com.append(ci)
 
 ci_comExcept = []
 for id_comexc in idComExcept:
-    param_ci = cal_ci(param_exp,label_exp,id_comexc)
+    param_ci = cal_paramci(param_exp,label_exp,id_comexc)
     ci = nor(generateCI(param_ci))
     ci_comExcept.append(ci.reshape(-1))
 
@@ -45,7 +44,7 @@ for i in range(len(idCom_all)):
     randomIndex = np.random.choice(indexList, 1000)
     label_rand = label_cnn[randomIndex]
     param_rand = param_cnn[randomIndex]
-    param_ci = cal_ci(param_rand,label_rand)
+    param_ci = cal_paramci(param_rand,label_rand)
     ci = nor(generateCI(param_ci))
     ci_cnn.append(ci)
 
@@ -80,7 +79,6 @@ plt.scatter(tsne_com[:,0], tsne_com[:,1], s=40, c="orange", label='human', alpha
 plt.scatter(tsne_comExcept[:,0], tsne_comExcept[:,1], s=60, c="red", label="human_template", alpha=1, linewidths=0)
 plt.scatter(tsne_cnn[:,0], tsne_cnn[:,1], s=40, label="cnn", alpha=1, linewidths=0) #aliceblue, linewidths=None
 #plt.scatter(tsne_rand[:,0], tsne_cnn[:,1], s=40, c='black', label="random", alpha=1, linewidths=0) #aliceblue, linewidths=None
-
 
 plt.title('Visualize the ci of distribution using t-SNE')
 plt.legend()

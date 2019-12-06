@@ -57,7 +57,7 @@ if __name__=='__main__':
     vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_gender_CrossEntro.pth'))
 
     # load data
-    imgcsv_path = r'D:\cnnface\gender_analysis\face_template\gray.csv'
+    imgcsv_path = r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face/cnn.csv'
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     PicSet = PicDataset(imgcsv_path, transform)
     Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
@@ -67,5 +67,5 @@ if __name__=='__main__':
 
     # save Classification result and classification probability
     #np.save(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/baseface', label)
-    np.save(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/baseface_prob', label_prob)
-    np.save(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/baseface_act', dnn_act)
+    np.save(r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face/cnn_reconface_prob', label_prob)
+    np.save(r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face/cnn_reconface_act', dnn_act)

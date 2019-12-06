@@ -32,7 +32,7 @@ def img_similarity(img1, img2, method, r_p=False):
     if img1.shape != img2.shape:
         print('The image size should be the same.')
 
-    if method == 'pearson':
+    if method == 'pearsonr':
         img1 = img1.reshape(-1)
         img2 = img2.reshape(-1)
         r, p = stats.pearsonr(img1, img2)
