@@ -9,6 +9,7 @@ conhensd = np.load(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/coh
 # load patchesIdx, patchesIdx contains the position which each parameter occupy.
 patchIdx = np.load(r'D:\cnnface/patchidx.npy').astype('int32')
 paramWeight = conhensd[(patchIdx - 1).reshape(-1)].reshape(patchIdx.shape)
+# shi yige
 
 weightMap_sum = np.sum(paramWeight, axis=2)
 

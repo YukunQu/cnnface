@@ -36,16 +36,9 @@ overlapParam = np.load(r'D:\cnnface\gender_analysis\Result\difference/human2cnnO
 diffParam = np.load(r'D:\cnnface\gender_analysis\Result\difference/human2cnnDiff.npy')
 
 paramNumScale = np.array([12, 48, 192, 768, 3072])
-overlapParamScale = np.array(paramScale(overlapParam))/paramNumScale
-diffParamScale = np.array(paramScale(diffParam))/paramNumScale
-
+overlapParamScale = np.array(paramScale(overlapParam)) / np.array([12,44,115,397,1427])
 scale = [2, 4, 8, 16, 32]
 sns.barplot(scale, overlapParamScale)
 plt.title('Overlap Parameters')
 plt.show()
-sns.barplot(scale, diffParamScale)
-plt.title('Different Parameters')
-plt.show()
-sns.barplot(scale, diffParamScale + overlapParamScale)
-plt.title('High Contribution parameters')
-plt.show()
+

@@ -54,10 +54,10 @@ if __name__=='__main__':
 
     # load model
     vggid = Vgg_identity()
-    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_gender_CrossEntro.pth'))
+    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_gender_CrossEntro.pth',map_location='cpu'))
 
     # load data
-    imgcsv_path = r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face/cnn.csv'
+    imgcsv_path = r'D:\cnnface\gender_analysis\morph_face/stim.csv'
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     PicSet = PicDataset(imgcsv_path, transform)
     Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
@@ -66,6 +66,6 @@ if __name__=='__main__':
     label, label_prob, dnn_act = dnn_ouput(Picloader, vggid)
 
     # save Classification result and classification probability
-    #np.save(r'D:\cnnface\gender_analysis\CI_analysis\param_effect/baseface', label)
-    np.save(r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face/cnn_reconface_prob', label_prob)
-    np.save(r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face/cnn_reconface_act', dnn_act)
+    np.save(r'D:\cnnface\gender_analysis\morph_face/morphface', label)
+    np.save(r'D:\cnnface\gender_analysis\morph_face/morphface_prob', label_prob)
+    np.save(r'D:\cnnface\gender_analysis\morph_face/morphface_act', dnn_act)
