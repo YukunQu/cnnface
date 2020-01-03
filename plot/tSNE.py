@@ -8,7 +8,6 @@ commend PCA for activation matrix
 """
 import numpy as np
 import pandas as pd
-#import scipy.stats as stats
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import os
