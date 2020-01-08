@@ -13,7 +13,7 @@ if infoSub.OK == False:
     core.quit()
 
 # load images path
-csv_file =  os.path.join(prePath,'stimulus',info['task'],'part{}.csv'.format(info['part']))
+csv_file =  os.path.join(prePath,'stimuli',info['task'],'part{}.csv'.format(info['part']))
 print(csv_file)
 images = pd.read_csv(csv_file, skiprows=1)
 with open(csv_file, 'r') as f:

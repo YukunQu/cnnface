@@ -4,7 +4,7 @@ from PIL import Image
 
 def generateSingleSinusoid(img_size, angle, phase):
     angle = np.radians(angle)
-    sinepath = (np.linspace(0,2,img_size))[:,np.newaxis].repeat(img_size,axis=1)
+    sinepath = (np.linspace(0, 2, img_size))[:,np.newaxis].repeat(img_size,axis=1)
     sinusoid = (sinepath*np.sin(angle) + sinepath.T*np.cos(angle)) * 2 * np.pi
     sinusoid = np.sin(sinusoid + phase)
 
@@ -34,7 +34,7 @@ def generatePatches(img_size,nscale=5):
     return patches
 
 
-def generateNoise(img_size,patches,nscale=5):
+def generateNoise(img_size,patches, nscale=5):
 
     scales = [2**i for i in range(1,nscale+1)]
     NumPatch = [(scale / 2) ** 2 for scale in scales]

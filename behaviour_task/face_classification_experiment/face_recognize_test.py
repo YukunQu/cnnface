@@ -15,10 +15,10 @@ if infoSub.OK == False:
     core.quit()
 
 # load images path
-imgs_list = os.listdir(os.path.join(prePath, 'stimulus', info['task']))
+imgs_list = os.listdir(os.path.join(prePath, 'stimuli', info['task']))
 picNames = imgs_list
 random.shuffle(picNames)
-images_path = [os.path.join(prePath, 'stimulus', info['task'], picName) for picName in picNames]
+images_path = [os.path.join(prePath, 'stimuli', info['task'], picName) for picName in picNames]
 
 # write the subject information to csv file
 savefilename = '{}.csv'.format(info['task'] + '_' + info['姓名'])

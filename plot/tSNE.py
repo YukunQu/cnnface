@@ -12,7 +12,7 @@ from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import os
 from sklearn.decomposition import PCA
-from cnnface.stimulus.Image_process import nor
+from cnnface.stimuli.image_manipulate import nor
 from cnnface.analysis.generate_ci import generateCI,cal_ci
 
 

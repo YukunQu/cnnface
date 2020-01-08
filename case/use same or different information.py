@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from cnnface.stimulus.Image_process import img_similarity,nor
+from cnnface.stimuli.image_manipulate import img_similarity,nor
 from cnnface.analysis.generate_ci import generateCI, cal_paramci
 import matplotlib.pyplot as plt
 import seaborn as sns

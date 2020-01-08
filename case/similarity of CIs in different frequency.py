@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from cnnface.analysis.generate_ci import generateCI,recon_face
-from cnnface.stimulus.Image_process import nor,img_similarity
+from cnnface.stimuli.image_manipulate import nor,img_similarity
 import matplotlib.pyplot as plt
 import seaborn as sns
 from PIL import Image
