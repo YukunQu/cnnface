@@ -15,7 +15,7 @@ def hum_csv2label(csvfile_path, param_sum):
 
 if __name__ == '__main__':
     param_sum = np.load(r'D:\cnnface\gender_analysis\noise_stimulus\metadata/params_20000.npy')
-    prepath = 'D:\cnnface\gender_analysis\human_result\exp\gender/part{}'
+    prepath = r'D:\cnnface\gender_analysis\human_result\exp\gender/part{}'
     label_sum = []
     param_exp = []
     names = []

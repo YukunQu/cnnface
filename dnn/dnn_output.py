@@ -47,10 +47,9 @@ def dnn_ouput(dataloaders,model):
 if __name__=='__main__':
 
     from torchvision import transforms
-    from dnnbrain.dnn.io import PicDataset, DataLoader
+    from torch.utils.data import DataLoader
+    from cnnface.dnn.io import PicDataset
     from cnnface.dnn.model_reconstruct import Vgg_identity
-    import seaborn as sns
-    import matplotlib.pyplot as plt
 
     # load model
     vggid = Vgg_identity()
