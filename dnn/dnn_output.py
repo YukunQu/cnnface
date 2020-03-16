@@ -45,26 +45,36 @@ def dnn_ouput(dataloaders,model):
 
 
 if __name__=='__main__':
-
+    import pandas as pd
     from torchvision import transforms
     from torch.utils.data import DataLoader
     from cnnface.dnn.io import PicDataset
-    from cnnface.dnn.model_reconstruct import Vgg_identity
+    from cnnface.dnn.model_reconstruct import Vgg_identity, Alexnet_gender
 
     # load model
-    vggid = Vgg_identity()
-    vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_gender_CrossEntro.pth',map_location='cpu'))
+    # vggid = Vgg_identity()
+    # vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_gender_CrossEntro.pth'))
+    alexnet_gender = Alexnet_gender()
+    alexnet_gender.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
+
 
     # load data
-    imgcsv_path = r'D:\cnnface\gender_analysis\morph_face/stim.csv'
+    imgcsv_path = r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face\human.csv'
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     PicSet = PicDataset(imgcsv_path, transform)
     Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
 
     # Get Classification result and activaiton of dnn
-    label, label_prob, dnn_act = dnn_ouput(Picloader, vggid)
+    label, label_prob, dnn_act = dnn_ouput(Picloader, alexnet_gender)
 
     # save Classification result and classification probability
-    np.save(r'D:\cnnface\gender_analysis\morph_face/morphface', label)
-    np.save(r'D:\cnnface\gender_analysis\morph_face/morphface_prob', label_prob)
-    np.save(r'D:\cnnface\gender_analysis\morph_face/morphface_act', dnn_act)
+    # np.save(r'D:\cnnface\gender_analysis\supplementray analysis\morph_face_output/morphface_label', label)
+    # np.save(r'D:\cnnface\gender_analysis\supplementray analysis\morph_face_output/morphface_prob', label_prob)
+    # np.save(r'D:\cnnface\gender_analysis\supplementray analysis\morph_face_output/morphface_act', dnn_act)
+
+    morpface_result = pd.DataFrame({'label':label,
+                                    'female_probability':label_prob[:,0],
+                                    'male_probability':label_prob[:,1],
+                                    'female_activation':dnn_act[:,0],
+                                    'male_activation':dnn_act[:,1]})
+    morpface_result.to_csv(r'D:\cnnface\gender_analysis\supplementray_analysis\reconstruct_face/vgg_result.csv')

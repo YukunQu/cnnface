@@ -1,5 +1,10 @@
+# The Code of sub-package dnn come from the old version dnnbrain packages.
+# Some of the following usages have been deprecated in the new version of dnnbrain
+
 import torch
 import torch.nn as nn
+
+from torchvision.models import AlexNet, alexnet
 
 
 class Vgg_face(nn.Module):
@@ -103,16 +108,33 @@ class Vgg_identity(Vgg_face):
         self.fc8 = nn.Linear(4096, 2)
 
 
+class Alexnet_gender(AlexNet):
+    """
+    A binary network originated from Alexnet for gender classification.
+    """
+    def __init__(self):
+        super().__init__()
+        for param in self.parameters():
+            param.requires_grad = False
+        new_classifier = self.classifier
+        new_classifier[6] = nn.Linear(4096, 2, bias=True)
+        self.classifier = new_classifier
+
 # generate and save a new classifier parameters(two class)
-vgg_face = Vgg_face()
-vgg_face.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_face_dag.pth'))
+# vgg_face = Vgg_face()
+# vgg_face.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_face_dag.pth'))
+#
+# in_features = vgg_face.fc8.in_features
+# out_features = 2
+# new_fc8 = nn.Linear(in_features, out_features, bias=True)
+# vgg_face.fc8 = new_fc8
+#
+# torch.save(vgg_face.state_dict(), 'F:/Code/pretrained_model/vgg_identity_ori.pth')
 
-in_features = vgg_face.fc8.in_features
-out_features = 2
-new_fc8 = nn.Linear(in_features,out_features,bias = True)
-vgg_face.fc8 = new_fc8
 
-torch.save(vgg_face.state_dict(),'F:/Code/pretrained_model/vgg_identity_ori.pth')
+alexnet_gender = alexnet(pretrained=True)
+gender_classifier = alexnet_gender.classifier
+gender_classifier[6] = nn.Linear(4096, 2, bias=True)
+alexnet_gender.classifier = gender_classifier
 
-
-
+torch.save(alexnet_gender.state_dict(), 'F:/Code/pretrained_model/alexnet_gender_ori.pth')

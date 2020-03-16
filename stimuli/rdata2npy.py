@@ -24,12 +24,12 @@ def rdata2npy(rdata, patch = False):
         return stimuli_parameter
 
 
-if __name__ == __main__:
+if __name__ == '__main__':
     for i in range(1, 21):
-        rdata = r"D:\cnnface\gender_analysis\noise_stimulus\metadata/part{}.Rdata".format(i)
+        rdata = r"D:\cnnface\gender_analysis\supplementray_analysis\noise_stimuli\metadata/part{}.Rdata".format(i)
         params_part = rdata2npy(rdata)
         if i == 1:
             params_20000 = params_part
         else:
             params_20000 = np.concatenate((params_20000, params_part), axis=0)
-    np.save(r'D:\cnnface\gender_analysis\noise_stimulus\metadata/params_20000', params_20000)
+    np.save(r'D:\cnnface\gender_analysis\supplementray_analysis\noise_stimuli\metadata/alexnet_params_20000', params_20000)

@@ -128,8 +128,8 @@ def generate_stim_csv(parpath, picname_list, condition_list, outpath, onset_list
 
 
 if __name__ == '__main__':
-    prepath = r'D:\VGGface2\overlap_vggface1_2\n004029'
-    output = r'D:\VGGface2\overlap_vggface1_2\n004029.csv'
+    prepath = r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_scale\different_level\68'
+    output = r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_scale\different_level\68.csv'
 
     picpath, condition = read_Imagefolder(prepath)
 
