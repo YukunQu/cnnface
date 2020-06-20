@@ -57,9 +57,8 @@ if __name__=='__main__':
     alexnet_gender = Alexnet_gender()
     alexnet_gender.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
 
-
     # load data
-    imgcsv_path = r'D:\cnnface\gender_analysis\Result\ci_correlation\recon_face\human.csv'
+    imgcsv_path = r'D:\cnnface\gender_analysis\noise_stimulus/baseface_20000.csv'
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     PicSet = PicDataset(imgcsv_path, transform)
     Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
@@ -68,13 +67,6 @@ if __name__=='__main__':
     label, label_prob, dnn_act = dnn_ouput(Picloader, alexnet_gender)
 
     # save Classification result and classification probability
-    # np.save(r'D:\cnnface\gender_analysis\supplementray analysis\morph_face_output/morphface_label', label)
-    # np.save(r'D:\cnnface\gender_analysis\supplementray analysis\morph_face_output/morphface_prob', label_prob)
-    # np.save(r'D:\cnnface\gender_analysis\supplementray analysis\morph_face_output/morphface_act', dnn_act)
-
-    morpface_result = pd.DataFrame({'label':label,
-                                    'female_probability':label_prob[:,0],
-                                    'male_probability':label_prob[:,1],
-                                    'female_activation':dnn_act[:,0],
-                                    'male_activation':dnn_act[:,1]})
-    morpface_result.to_csv(r'D:\cnnface\gender_analysis\supplementray_analysis\reconstruct_face/vgg_result.csv')
+    np.save(r'D:\cnnface\Data_sorted\new_alexnet/label.npy', label)
+    np.save(r'D:\cnnface\Data_sorted\new_alexnet/prob.npy', label_prob)
+    np.save(r'D:\cnnface\Data_sorted\new_alexnet/act.npy', dnn_act)

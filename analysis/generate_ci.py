@@ -108,14 +108,14 @@ def recon_face(baseface, ci, scale=1.0):
     return img_add, img_sub
 
 
-#%%
+
 if __name__ == '__main__':
     import numpy as np
     from PIL import Image
 
     baseface = Image.open(r'D:\cnnface\gender_analysis\face_template\gray/baseface.jpg')
-    param = np.load(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/param_exp.npy')
-    label = np.load(r'D:\cnnface\gender_analysis\human_result\exp\gender\label/label_sum.npy')
+    param = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
+    label = np.load(r'D:\cnnface\Data_sorted\vggface\raw/vgg_activation_label_20000.npy')
 
     param_ci = cal_paramci(param, label)
 

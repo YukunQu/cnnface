@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from cnnface.stimuli.image_manipulate import img_similarity,nor
-from cnnface.analysis.generate_ci import generateCI, cal_ci
+from cnnface.analysis.generate_ci import generateCI,cal_paramci
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import stats
@@ -26,7 +26,7 @@ for i in range(1000):
     randomIndex = np.random.choice(indexList, 5000)
     label_rand = label_exp[randomIndex]
     param_rand = param_exp[randomIndex]
-    param_ci = cal_ci(param_rand,label_rand)
+    param_ci = cal_paramci(param_rand,label_rand)
     ci = nor(generateCI(param_ci))
     ci_exp.append(ci)
 
@@ -39,7 +39,7 @@ for i in range(1000):
     randomIndex = np.random.choice(indexList, 5000)
     label_rand = label_cnn[randomIndex]
     param_rand = param_cnn[randomIndex]
-    param_ci = cal_ci(param_rand,label_rand)
+    param_ci = cal_paramci(param_rand,label_rand)
     ci = nor(generateCI(param_ci))
     ci_cnn.append(ci)
 

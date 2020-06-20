@@ -73,6 +73,25 @@ def read_boundingbox_from_loosebb(subjectid, picname):
     coord_box = {'left_coord':left_coord,'upper_coord':upper_coord,'right_coord':right_coord,'lower_coord':lower_coord}
     return coord_box
 
+def read_boundingbox(picpath):
+    boundingbox = pd.read_csv('D:/VGGface2/meta_data/bb_landmark/loose_bb_train.csv')
+    name_id = [name.split('.')[0] for name in picpath]
+
+    idx = []
+    for i, name in enumerate(boundingbox["NAME_ID"]):
+        if name in name_id:
+            idx.append(i)
+        if i%1000 ==0:
+            print(i)
+    sub_boundingbox = boundingbox.iloc[idx,:]
+
+    left_coord = sub_boundingbox["X"].tolist()
+    upper_coord = sub_boundingbox["Y"].tolist()
+    right_coord = [left_coord[i]+sub_boundingbox["W"].tolist()[i] for i in range(len(left_coord))]
+    lower_coord = [upper_coord[i]+sub_boundingbox["H"].tolist()[i] for i in range(len(left_coord))]
+    coord_box = {'left_coord':left_coord,'upper_coord':upper_coord,'right_coord':right_coord,'lower_coord':lower_coord}
+    return coord_box
+
 
 def generate_stim_csv(parpath, picname_list, condition_list, outpath, onset_list=None, behavior_measure=None):
     """
@@ -128,16 +147,14 @@ def generate_stim_csv(parpath, picname_list, condition_list, outpath, onset_list
 
 
 if __name__ == '__main__':
-    prepath = r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_scale\different_level\68'
-    output = r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_scale\different_level\68.csv'
+    prepath = r'D:\AI_twostream\Data\10\img_low\train'
+    output = r'D:\AI_twostream\Data\10\img_low\train.csv'
 
     picpath, condition = read_Imagefolder(prepath)
 
     boundbox = False
     if boundbox == True:
-        subjectid = os.listdir(prepath)
-        picname = [os.path.basename(picpath) for p in picpath]
-        coord_box = read_boundingbox_from_loosebb(subjectid, picname)
+        coord_box = read_boundingbox(picpath)
         generate_stim_csv(prepath,picpath,condition,output,behavior_measure = coord_box)
     else:
         generate_stim_csv(prepath, picpath, condition, output)

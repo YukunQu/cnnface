@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import os
 from sklearn.decomposition import PCA
 from cnnface.stimuli.image_manipulate import nor
-from cnnface.analysis.generate_ci import generateCI,cal_ci
+from cnnface.analysis.generate_ci import generateCI, cal_ci
 
 
 # generate the 100 CIs from human experiment data using bootstrap

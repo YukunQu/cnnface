@@ -6,7 +6,7 @@ from scipy import stats
 # Calculate the contribution of high informative parameters of cnn for human
 
 # load the conhens'd of parameters in cnn
-d_cnn = np.load(r'D:\cnnface\gender_analysis\CI_analysis\para_significant/cohensd_sum.npy')
+d_cnn = np.load(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/d_abs.npy')
 
 # load the the conhens'd of parameters in human
 d_human = np.load(r'D:\cnnface\gender_analysis\human_result\para_significant/cohensd_sum.npy')
@@ -36,13 +36,15 @@ def cnnParamContrib2humanSum(d_cnn,d_human,threshold):
     # sum up the contribution percentages of the parameters
     cnnParamContrib2humanSum = cnnParamContrib2human.sum()
 
+    np.save(r'D:\cnnface\Data_sorted\compareResult\contribution/d_cnn_ContriOver80Index.npy',paramIndexOver)
     x= d_cnn[paramIndexOver]
+    print(len(x))
     y= d_human[paramIndexOver]
     paramContriSimilarity = stats.pearsonr(x,y)
 
     return cnnParamContrib2humanSum, paramContriSimilarity
 
-threshold = np.arange(0,0.91,0.01)
+threshold = np.arange(0.01,0.91,0.01)
 cnnParamContrib2humanAll = []
 similarityAll = []
 for th in threshold:
@@ -55,6 +57,7 @@ sns.lineplot(threshold,cnnParamContrib2humanAll)
 plt.xlabel('Contribution for CNN')
 plt.ylabel('Contribution for Human')
 plt.title('The contribution of high informative parameters in cnn for human')
+plt.savefig(r'D:\cnnface\Data_sorted\compareResult\contribution/ContritbuionOfCNNforhuman.png',dpi=300)
 plt.show()
 
 sns.lineplot(threshold[-80:],similarityAll[-80:])
