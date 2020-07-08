@@ -41,7 +41,7 @@ plt.tick_params(labelsize=14)
 plt.xticks([0,1,2,3,4,5],['2','4','8','16','32'], size=14)
 plt.yticks(size=14)
 plt.ylabel("|Cohen's d|",size=16)
-plt.xlabel('Scale(cycles/image)',size=16)
+plt.xlabel('Scale (cycles/image)',size=16)
 # plot the significant line
 bin = np.arange(-0.2,4.3,0.2)
 y = np.full((len(bin)),distance[p_minsignIndex])

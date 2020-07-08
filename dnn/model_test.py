@@ -2,7 +2,9 @@
 import time
 import numpy as np
 import torch
+from torch import nn
 from torchvision import transforms
+from torchvision.models import vgg16
 from cnnface.dnn.io import PicDataset
 from torch.utils.data import DataLoader
 from cnnface.dnn.model_reconstruct import Vgg_identity, Alexnet_gender
@@ -48,8 +50,13 @@ def dnn_test_model(dataloaders, model):
 # vggid = Vgg_identity()
 # vggid.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
 
-alexnet_gender = Alexnet_gender()
-alexnet_gender.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
+#alexnet_gender = Alexnet_gender()
+#alexnet_gender.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
+
+# vgg16
+vgg16_gender = vgg16()
+vgg16_gender.classifier[-1] = nn.Linear(4096, 2, bias=True)
+vgg16_gender.load_state_dict(torch.load('F:/Code/pretrained_model/vgg16_gender_CrossEntro_sgd_lr0.01.pth'))
 
 # load noise image
 imgcsv_path = r'D:\cnnface\gender_analysis\train_stimulus\test.csv'
@@ -58,5 +65,5 @@ PicSet = PicDataset(imgcsv_path, transform)
 Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
 
 # Get Classification result of vgg
-label, expect_label, accuracy = dnn_test_model(Picloader, alexnet_gender)
+label, expect_label, accuracy = dnn_test_model(Picloader, vgg16_gender)
 print(accuracy)

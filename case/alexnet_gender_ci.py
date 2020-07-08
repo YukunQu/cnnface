@@ -41,11 +41,12 @@ plt.savefig(r'D:\cnnface\gender_analysis\supplementray_analysis\vggface_activati
 plt.show()
 
 #%%
-act = np.load(r'D:\cnnface\Data_sorted\new_alexnet/act.npy')
+act = np.load(r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\result/act.npy')
 male_activation = act[:, 1]
 baseline = np.mean(male_activation)
 activation_wave = male_activation - baseline
 label = np.array([1 if a > 0 else 0 for a in activation_wave])
+np.save(r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\result/act_label.npy',label)
 
 old_label = np.load(r'D:\cnnface\gender_analysis\supplementray_analysis\noise_face_result/activation_label_250.npy')
 print((label == old_label).all())

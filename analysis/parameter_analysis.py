@@ -121,14 +121,15 @@ def index2diffscale(index):
     return indexSubScale
 
 
-param_20000 = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
-label_20000 = np.load(r'D:\cnnface\Data_sorted\vggface\raw/vgg_activation_label_20000.npy')
-vggParamSet = ParamSet(param_20000,label_20000)
-vggParamSet.param_analysis()
+if __name__ == '__main__':
+    param_20000 = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
+    label_20000 = np.load(r'D:\cnnface\Data_sorted\vggface\raw/vgg_activation_label_20000.npy')
+    vggParamSet = ParamSet(param_20000,label_20000)
+    vggParamSet.param_analysis()
 
-np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/pvalue.npy',vggParamSet.pvalue)
-np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/d.npy',vggParamSet.effectSize)
-np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/pSignIndex.npy',vggParamSet.pSignIndex)
-np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/contribution.npy',vggParamSet.contributionRate)
-np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/p_maxsignIndex.npy',np.array([798]))
+    np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/pvalue.npy',vggParamSet.pvalue)
+    np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/d.npy',vggParamSet.effectSize)
+    np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/pSignIndex.npy',vggParamSet.pSignIndex)
+    np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/contribution.npy',vggParamSet.contributionRate)
+    np.save(r'D:\cnnface\Data_sorted\vggface\param_analysis\data/p_maxsignIndex.npy',np.array([798]))
 

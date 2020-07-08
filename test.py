@@ -94,3 +94,18 @@ plt.imshow(ci_noise,cmap='gray',vmin=ci_noise.min(),vmax=ci_noise.max())
 plt.axis('off')
 savepath = saveprepath.format('all')
 plt.savefig(savepath,bbox_inches='tight',pad_inches=0,dpi=300)
+
+#%%
+# 批量图片转灰度
+import os
+import numpy as np
+from PIL import Image
+from facemorpher import list_imgpaths
+
+prepath = r'D:\cnnface\facegen\morph'
+img_list = list_imgpaths(prepath)
+
+for i,img_name in enumerate(img_list):
+    img = Image.open(img_name)
+    img = img.convert('L').convert('RGB')
+    img.save(r'D:\cnnface\facegen\morph_gray/{}.jpg'.format(str(i+1).zfill(3)))

@@ -3,10 +3,10 @@
 
 import torch
 import torch.nn as nn
+import torchvision
+from torchvision.models import AlexNet, alexnet,vgg16
 
-from torchvision.models import AlexNet, alexnet
-
-
+#%%
 class Vgg_face(nn.Module):
     """Vgg_face's model architecture"""
 
@@ -120,6 +120,8 @@ class Alexnet_gender(AlexNet):
         new_classifier[6] = nn.Linear(4096, 2, bias=True)
         self.classifier = new_classifier
 
+
+
 # generate and save a new classifier parameters(two class)
 # vgg_face = Vgg_face()
 # vgg_face.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_face_dag.pth'))
@@ -131,10 +133,16 @@ class Alexnet_gender(AlexNet):
 #
 # torch.save(vgg_face.state_dict(), 'F:/Code/pretrained_model/vgg_identity_ori.pth')
 
+#
+# alexnet_gender = alexnet(pretrained=True)
+# gender_classifier = alexnet_gender.classifier
+# gender_classifier[6] = nn.Linear(4096, 2, bias=True)
+# alexnet_gender.classifier = gender_classifier
+#
+# torch.save(alexnet_gender.state_dict(), 'F:/Code/pretrained_model/alexnet_gender_ori.pth')
 
-alexnet_gender = alexnet(pretrained=True)
-gender_classifier = alexnet_gender.classifier
-gender_classifier[6] = nn.Linear(4096, 2, bias=True)
-alexnet_gender.classifier = gender_classifier
-
-torch.save(alexnet_gender.state_dict(), 'F:/Code/pretrained_model/alexnet_gender_ori.pth')
+#%%
+# vgg16
+vgg16_gender = vgg16(pretrained=True)
+vgg16_gender.classifier[-1] = nn.Linear(4096, 2, bias=True)
+torch.save(vgg16_gender.state_dict(), 'F:/Code/pretrained_model/vgg16_gender_ori.pth')

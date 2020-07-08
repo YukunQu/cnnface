@@ -147,8 +147,8 @@ def generate_stim_csv(parpath, picname_list, condition_list, outpath, onset_list
 
 
 if __name__ == '__main__':
-    prepath = r'D:\AI_twostream\Data\10\img_low\train'
-    output = r'D:\AI_twostream\Data\10\img_low\train.csv'
+    prepath = r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\stimuli'
+    output = r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\stimuli.csv'
 
     picpath, condition = read_Imagefolder(prepath)
 

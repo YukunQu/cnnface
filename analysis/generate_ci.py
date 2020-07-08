@@ -2,6 +2,16 @@ import numpy as np
 from PIL import Image
 
 
+def act2label(activaiton, savepath):
+    male_activation = activaiton[:, 1]
+    baseline = np.mean(male_activation)
+    # calculate the label
+    activation_wave = male_activation - baseline
+    label = np.array([1 if a > 0 else 0 for a in activation_wave])
+    np.save(savepath, label)
+    return label
+
+
 def cal_paramci(param_n, label, subjectid=(), subjtrials=1000):
     """
     Calculate the ci from noise parameters of n trails and classification label
@@ -106,7 +116,6 @@ def recon_face(baseface, ci, scale=1.0):
     img_add = Image.fromarray(bf_add.astype('int8')).convert('L')
     img_sub = Image.fromarray(bf_sub.astype('int8')).convert('L')
     return img_add, img_sub
-
 
 
 if __name__ == '__main__':

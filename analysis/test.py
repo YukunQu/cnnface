@@ -72,7 +72,7 @@ plt.show()
 #%%
 old_ci = np.load(r'D:\cnnface\Data_sorted\vggface\ci\data/ci_vgg.npy')
 new_ci = np.load(r'D:\cnnface\Data_sorted\vggface_act\ci\data/ci_vgg_act.npy')
-def ci_show(ci,savepath=False,colorbar=True):
+def ci_show(ci, savepath=False, colorbar=True):
     plt.clf()
     plt.imshow(ci,cmap='jet',vmax=old_ci.max(),vmin=old_ci.min())
     plt.axis('off')
@@ -142,8 +142,8 @@ def average_ci(param_n):
     return ci_average
 
 
-param_n = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
-label = np.load(r'D:\cnnface\Data_sorted\vggface\raw/gender_label_20000.npy')
+param_n = np.load(r'D:\cnnface\Data_sorted\human\raw/param_exp.npy')
+label = np.load(r'D:\cnnface\Data_sorted\human\raw/label_sum.npy')
 
 label_0 = np.argwhere(label == 0).astype('int32')
 label_1 = np.argwhere(label == 1).astype('int32')
@@ -157,19 +157,19 @@ param_1 = np.squeeze(np.mean(param_1, axis=0))
 ci_0 = generateCI(param_0)
 ci_1 = generateCI(param_1)
 
-plt.imshow(ci_0,'gray',vmax=ci_0.max()*1.3,vmin=ci_0.min()*1.3)
+plt.imshow(ci_0,'gray',vmax=ci_0.max()*1.1,vmin=ci_0.min()*1.1)
 plt.axis('off')
-plt.savefig(r'F:\研究生资料库\项目五：AI\大会报告\noisy face/ci0_1.3.jpg',bbox_inches='tight',pad_inches=0,dpi=300)
-plt.imshow(ci_1,'gray',vmax=ci_1.max()*1.3,vmin=ci_1.min()*1.3)
+plt.savefig(r'F:\研究生资料库\项目五：AI\文章图\img\Figure1\human\average/ci0_1.1.jpg',bbox_inches='tight',pad_inches=0,dpi=300)
+plt.imshow(ci_1,'gray',vmax=ci_1.max()*1.1,vmin=ci_1.min()*1.1)
 plt.axis('off')
-plt.savefig(r'F:\研究生资料库\项目五：AI\大会报告\noisy face/ci1_1.3.jpg',bbox_inches='tight',pad_inches=0,dpi=300)
+plt.savefig(r'F:\研究生资料库\项目五：AI\文章图\img\Figure1\human\average/ci1_1.1.jpg',bbox_inches='tight',pad_inches=0,dpi=300)
 
 #%%
-param_n = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
-label = np.load(r'D:\cnnface\Data_sorted\vggface\raw/gender_label_20000.npy')
+param_n = np.load(r'D:\cnnface\Data_sorted\human\raw/param_exp.npy')
+label = np.load(r'D:\cnnface\Data_sorted\human\raw/label_sum.npy')
 
 label_0 = np.argwhere(label == 0).astype('int32')[:3]
-label_1 = np.argwhere(label == 1).astype('int32')[1:4]
+label_1 = np.argwhere(label == 1).astype('int32')[:3]
 
 param_0 = param_n[label_0]
 param_1 = param_n[label_1]
@@ -179,7 +179,7 @@ for i, param in enumerate(param_0):
     noise = generateCI(param)
     plt.imshow(noise,'gray',vmax=noise.max()*1.3,vmin=noise.min()*1.3)
     plt.axis('off')
-    plt.savefig(r'F:\研究生资料库\项目五：AI\大会报告\noisy face/noise_pattern\female/noise_{}.jpg'.format(i+1),bbox_inches='tight',pad_inches=0,dpi=300)
+    plt.savefig(r'F:\研究生资料库\项目五：AI\文章图\img\Figure1\human\female/femalenoise_{}.jpg'.format(i+1),bbox_inches='tight',pad_inches=0,dpi=300)
 
 
 for i, param in enumerate(param_1):
@@ -187,4 +187,80 @@ for i, param in enumerate(param_1):
     noise = generateCI(param)
     plt.imshow(noise,'gray',vmax=noise.max()*1.3,vmin=noise.min()*1.3)
     plt.axis('off')
-    plt.savefig(r'F:\研究生资料库\项目五：AI\大会报告\noisy face/noise_pattern\male/noise_{}.jpg'.format(i+1),bbox_inches='tight',pad_inches=0,dpi=300)
+    plt.savefig(r'F:\研究生资料库\项目五：AI\文章图\img\Figure1\human\male/noise_{}.jpg'.format(i+1),bbox_inches='tight',pad_inches=0,dpi=300)
+
+#%%
+from cnnface.analysis.generate_ci import cal_paramci,generateCI,act2label
+act = np.load(r'D:\cnnface\Data_sorted\vgg16\noiseface_label_raw/act.npy')
+act_label = act2label(act, r'D:\cnnface\gender_analysis\supplementray_analysis\vggface_activation_label_result\activation_label/shan.npy')
+
+# generate the vgg16 CI
+param = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
+#act_label = np.load(r'D:\cnnface\Data_sorted\vgg16\noiseface_label_raw/act_label.npy')
+
+param_ci = cal_paramci(param, act_label)
+ci = generateCI(param_ci)
+cis = generateCI(param_ci,[2,4,8,16,32])
+# np.save(r'D:\cnnface\Data_sorted\vgg16\ci\data/param_ci_lr0.01.npy', param_ci)
+# np.save(r'D:\cnnface\Data_sorted\vgg16\ci\data/ci_lr0.01.npy', ci)
+# np.save(r'D:\cnnface\Data_sorted\vgg16\ci\data/cis_lr0.01.npy', cis)
+
+#%%
+import  numpy as np
+from PIL import Image
+from  cnnface.analysis.generate_ci import recon_face
+
+baseface = Image.open(r'D:\AI_generate_faces\baseface/frame286.png').convert('L')
+ci = np.load(r'D:\cnnface\Data_sorted\alexnet\ci\data/ci_alexnet.npy')
+scaleIndex = 45/ci.max()
+img_add,img_sub = recon_face(baseface, ci, scaleIndex)
+
+img_add.save(r'D:\AI_generate_faces\prototype\alexnet/female_en.jpg')
+img_sub.save(r'D:\AI_generate_faces\prototype\alexnet/male_en.jpg')
+
+#%%
+import os
+from cnnface.stimuli.generate_stimuli_csv import read_Imagefolder
+
+prepath = r'D:\AI_generate_faces\stylegan_face'
+picpath, condition = read_Imagefolder(prepath)
+imgs_path = [os.path.join(prepath,p) for p in picpath]
+
+img_path_female = []
+img_path_male = []
+for l, img_path in zip(label, imgs_path):
+    if l == 0 :
+        img_path_female.append(img_path)
+    elif l ==1 :
+        img_path_male.append(img_path)
+
+#%%
+import os
+from PIL import Image
+
+female = Image.open(r'D:\AI_generate_faces\average/female_average.png').convert('L').convert('RGB')
+male = Image.open(r'D:\AI_generate_faces\average/male_average.png').convert('L').convert('RGB')
+
+female.save(r'D:\AI_generate_faces\gray/female.png')
+male.save(r'D:\AI_generate_faces\gray/male.png')
+
+#%%
+# 对比度增强
+from PIL import Image
+from PIL import ImageEnhance
+
+img = Image.open(r'D:\AI_generate_faces\gray/frame280.png')
+enh_con = ImageEnhance.Contrast(img)
+contrast = 1.5
+img_contrasted = enh_con.enhance(contrast)
+img_contrasted.save(r'D:\AI_generate_faces\baseface/baseface_enhance1.3.png')
+
+
+#%%
+param_10000 = np.load(r'D:\cnnface\gender_analysis\noise_stimulus\metadata/params_20000.npy')[:10000]
+label = np.load(r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\result/raw/act_label.npy')
+param_ci = cal_paramci(param_10000, label)
+ci = generateCI(param_ci)
+np.save(r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\result/ci/ci.npy',ci)
+plt.imshow(ci, 'jet')
+plt.show()

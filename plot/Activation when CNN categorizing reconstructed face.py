@@ -37,23 +37,25 @@ actCNNMale = actCNNFace[5:, 1]
 actHumanFemale = actHumanFace[:5, 0]
 actCNNFemale = actCNNFace[:5, 0]
 
-category = ['Human'] * 5 + ['CNN'] *5
+category = ['Human'] * 5 + ['VGG-Face'] *5
 Scale = [2,4,8,16,32] *2
 
 act = np.concatenate((actHumanFemale,actCNNFemale))
 sns.barplot(x=Scale,y=act,hue=category)
-plt.title('Action of female unit to prototype faces',size=14)
-plt.ylabel('Activation')
-plt.yticks(size=12)
-plt.xticks(size=12)
-plt.savefig(r'D:\cnnface\Data_sorted\compareResult\prototypeface/female_act.jpg',dpi=300)
+plt.legend(frameon=False)
+plt.title('Unit: female',size=20)
+#plt.ylabel('Activation',size=)
+plt.yticks([5,10,15,20],['5','10','15','20'],size=16)
+plt.xticks(size=16)
+plt.savefig(r'D:\cnnface\Data_sorted\compareResult\prototypeface/female_act.jpg',dpi=600)
 plt.show()
 
 act = np.concatenate((actHumanMale,actCNNMale))
 sns.barplot(x=Scale,y=act,hue=category)
-plt.title('Action of male unit to prototype faces',size=14)
-plt.ylabel('Activation')
-plt.yticks(size=12)
-plt.xticks(size=12)
-plt.savefig(r'D:\cnnface\Data_sorted\compareResult\prototypeface/male_act.jpg',dpi=300)
+plt.legend(frameon=False)
+plt.title('Unit: male',size=20)
+#plt.ylabel('Activation')
+plt.yticks([5,10,15,20],['5','10','15','20'],size=16)
+plt.xticks(size=16)
+plt.savefig(r'D:\cnnface\Data_sorted\compareResult\prototypeface/male_act.jpg',dpi=600)
 plt.show()
