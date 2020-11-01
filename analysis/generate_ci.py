@@ -124,26 +124,30 @@ if __name__ == '__main__':
 
     baseface = Image.open(r'D:\cnnface\gender_analysis\face_template\gray/baseface.jpg')
     param = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
-    label = np.load(r'D:\cnnface\Data_sorted\vggface\raw/vgg_activation_label_20000.npy')
+    # act = np.load(r'D:\cnnface\analysis_for_reply_review\analysis\noise_classification/vggface/act.npy')
+    # label = act2label(act,r'D:\cnnface\analysis_for_reply_review\analysis\noise_classification/vggface/act_label.npy')
+
+    act = np.load(r'F:\Code\pretrained_model\review_version\previous_stim/act.npy')
+    label = act2label(act,r'F:\Code\pretrained_model\review_version\previous_stim/act_label.npy')
 
     param_ci = cal_paramci(param, label)
 
-    np.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img/param_ci_cnn.npy', param_ci)
+    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_param_ci.npy', param_ci)
 
     ci = generateCI(param_ci)
-    np.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img/ci_cnn.npy', ci)
+    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_ci.npy', ci)
 
-    scales = np.arange(1, 100)
-    # for scale in scales:
-    #     img_add, img_sub = recon_face(baseface, ci, scale)
-    #     img_add.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentscale/bf_add_%04d.jpg' % scale)
-    #     img_sub.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentscale/bf_sub_%04d.jpg' % scale)
-
-    cis = generateCI(param_ci,level=(2,4,8,16,32))
-    #cis_34 = cis * 34
-    cis_68 = cis * 68
-
-    level = (2, 4, 8, 16, 32)
+    # scales = np.arange(1, 100)
+    # # for scale in scales:
+    # #     img_add, img_sub = recon_face(baseface, ci, scale)
+    # #     img_add.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentscale/bf_add_%04d.jpg' % scale)
+    # #     img_sub.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentscale/bf_sub_%04d.jpg' % scale)
+    #
+    # cis = generateCI(param_ci, level=(2,4,8,16,32))
+    # #cis_34 = cis * 34
+    # cis_68 = cis * 68
+    #
+    # level = (2, 4, 8, 16, 32)
 
     # for i, l in enumerate(level):
     #     print(cis_34[i, :, :].shape)
@@ -151,9 +155,9 @@ if __name__ == '__main__':
     #     img_add.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_level/34/bf_add_%04d.jpg' % l)
     #     img_sub.save(r'D:\cnnface\gender_analysis\CI_analysis\CIs_img\different_level/34/bf_sub_%04d.jpg' % l)
 
-    for i, l in enumerate(level):
-        print(cis_68[i, :, :].max())
-        print(cis_68[i, :, :].min())
-        img_add, img_sub = recon_face(baseface, cis_68[i, :, :])
-        img_add.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentFreq/bf_add_%04d.jpg' % l)
-        img_sub.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentFreq/bf_sub_%04d.jpg' % l)
+    # for i, l in enumerate(level):
+    #     print(cis_68[i, :, :].max())
+    #     print(cis_68[i, :, :].min())
+    #     img_add, img_sub = recon_face(baseface, cis_68[i, :, :])
+    #     img_add.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentFreq/bf_add_%04d.jpg' % l)
+    #     img_sub.save(r'D:\cnnface\gender_analysis\human_result\CIs\subject\ci_img\differentFreq/bf_sub_%04d.jpg' % l)

@@ -147,14 +147,14 @@ def generate_stim_csv(parpath, picname_list, condition_list, outpath, onset_list
 
 
 if __name__ == '__main__':
-    prepath = r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\stimuli'
-    output = r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\stimuli.csv'
+    prepath = r'D:\cnnface\analysis_for_reply_review\data\registrated\train'
+    output = r'D:\cnnface\analysis_for_reply_review\data\registrated\train.csv'
 
     picpath, condition = read_Imagefolder(prepath)
 
     boundbox = False
     if boundbox == True:
         coord_box = read_boundingbox(picpath)
-        generate_stim_csv(prepath,picpath,condition,output,behavior_measure = coord_box)
+        generate_stim_csv(prepath,picpath, condition, output, behavior_measure=coord_box)
     else:
         generate_stim_csv(prepath, picpath, condition, output)

@@ -3,7 +3,7 @@ import numpy as np
 import torch
 
 
-def dnn_ouput(dataloaders,model):
+def dnn_ouput(dataloaders, model):
     """
     Get model output and classification probability.
 
@@ -54,31 +54,22 @@ if __name__=='__main__':
     from torchvision.models import vgg16
 
     #load model
-    # vggid = Vgg_identity()
-    # vggid.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_gender_CrossEntro.pth'))
-
-    alexnet_gender = Alexnet_gender()
-    alexnet_gender.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
-
-    # # vgg16
-    # vgg16_gender = vgg16()
-    # vgg16_gender.classifier[-1] = nn.Linear(4096, 2, bias=True)
-    # vgg16_gender.load_state_dict(torch.load('F:/Code/pretrained_model/vgg16_gender_CrossEntro.pth'))
+    model_gender = Vgg_identity()
+    model_gender.load_state_dict(torch.load(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_gender.pth'))
 
     # load data
-    # imgcsv_path = r'D:\cnnface\gender_analysis\noise_stimulus/baseface_20000.csv'
-    imgcsv_path = r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\stimuli.csv'
+    imgcsv_path = r'D:\cnnface\gender_analysis\noise_stimulus/baseface_20000.csv'
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     PicSet = PicDataset(imgcsv_path, transform)
     Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
 
     # Get Classification result and activaiton of dnn
-    label, label_prob, dnn_act = dnn_ouput(Picloader, alexnet_gender)
+    label, label_prob, dnn_act = dnn_ouput(Picloader, model_gender)
 
     # # save Classification result and classification probability
-    np.save(r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\result/label.npy', label)
-    np.save(r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\result/prob.npy', label_prob)
-    np.save(r'D:\cnnface\gender_analysis\supplementray_analysis\alexnet_357_sinusoid\result/act.npy', dnn_act)
+    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/label.npy', label)
+    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/prob.npy', label_prob)
+    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/act.npy', dnn_act)
 
     # #%%
     # male_prob = label_prob[:, 1]

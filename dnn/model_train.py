@@ -1,16 +1,22 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jun  3 10:29:57 2020
+
+@author: qyk
+"""
 import time
-import torch
 import numpy as np
+import torch
+
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import transforms
+from torch.optim import lr_scheduler
 from cnnface.dnn.io import PicDataset
-from cnnface.dnn.model_reconstruct import Vgg_identity
-from cnnface.dnn.model_reconstruct import Alexnet_gender
-from torchvision.models import vgg16
+from cnnface.dnn.model_reconstruct import Vgg_identity,Alexnet_gender
 
-#%%
-def dnn_train_model(dataloaders, model, criterion, optimizer, num_epoches=200, train_method='tradition'):
+
+def dnn_train_model(dataloaders, model, criterion, optimizer, scheduler, num_epoches=200, train_method='tradition'):
     """
     Function to train a DNN model
 
@@ -32,11 +38,15 @@ def dnn_train_model(dataloaders, model, criterion, optimizer, num_epoches=200, t
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model.train()
     model = model.to(device)
+
+    loss_dev = []
+    acc_dev = []
     for epoch in range(num_epoches):
         print('Epoch time {}/{}'.format(epoch+1, num_epoches))
         print('-'*10)
         running_loss = 0.0
-        loss_change_curve = []
+        running_corrects = 0.0
+
         for inputs, targets in dataloaders:
             inputs.requires_grad_(True)
             inputs = inputs.to(device)
@@ -60,49 +70,42 @@ def dnn_train_model(dataloaders, model, criterion, optimizer, num_epoches=200, t
                 optimizer.step()
             # Statistics
             running_loss += loss.item() * inputs.size(0)
+            running_corrects += torch.sum(pred == targets.data)
 
+        #scheduler.step()
         epoch_loss = running_loss / len(dataloaders.dataset)
-        loss_change_curve.append(epoch_loss)
+        epoch_acc = running_corrects.double() / len(dataloaders.dataset)
+        loss_dev.append(epoch_loss)
+        acc_dev.append(epoch_acc)
         print('Loss: {}\n'.format(epoch_loss))
+        print('Accuracy: {}\n'.format(epoch_acc))
+        time_elapsed = time.time() - time0
+        print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
+
     time_elapsed = time.time() - time0
-    print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
-    return model, loss_change_curve
+    print('Total training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
+    return model, loss_dev, acc_dev
 
+# prepare data
+images_path = r'D:\cnnface\analysis_for_reply_review\data\train.csv'
 
-#prepare data
-images_path = r'D:\cnnface\gender_analysis\train_stimulus\train.csv'
 transforms = transforms.Compose([transforms.Resize((224, 224)),
-                                transforms.ToTensor()])
+                                 transforms.ToTensor()])
 dataSet = PicDataset(images_path, transforms)
+dataloader = DataLoader(dataSet, batch_size=16, shuffle=True)
 
-# initialize the vggface model,loss function,optimizer
-# vggI = Vgg_identity()
-# vggI.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_identity_ori.pth'))
-#
-# optimizer = torch.optim.Adam(vggI.parameters(), lr=0.03)
-
-# initialize the vgg16 model,loss function,optimizer
-vgg16_gender = vgg16()
-for param in vgg16_gender.parameters():
-    param.requires_grad = False
-vgg16_gender.classifier[-1] = nn.Linear(4096, 2, bias=True)
-vgg16_gender.load_state_dict(torch.load(r'F:/Code/pretrained_model/vgg16_gender_ori.pth'))
-#optimizer = torch.optim.Adam(vgg16_gender.parameters(), lr=0.01)
-optimizer = torch.optim.SGD(vgg16_gender.parameters(), lr=0.01, momentum=0.9)
+# initialize the model,loss function,optimizer
+model_train = Vgg_identity()
+model_train.load_state_dict(torch.load(r'F:/Code/pretrained_model/vgg_identity_ori.pth'))
+optimizer = torch.optim.Adam(model_train.parameters(), lr=0.03)
+exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=15, gamma=0.1)
 loss_func = nn.CrossEntropyLoss()
-for name, param in vgg16_gender.named_parameters():
-    print("{} {}".format(name, param.requires_grad))
-
-# train alexnet_gender network
-# alexnet_gender = Alexnet_gender()
-# alexnet_gender.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_ori.pth'))
-#
-# optimizer = torch.optim.Adam(alexnet_gender.parameters(), lr=0.03)
-# loss_func = nn.CrossEntropyLoss()
-
 
 # train dnn model
-dataloader = DataLoader(dataSet, batch_size=16, shuffle=True)
-trained_model, loss_curve = dnn_train_model(dataloader, vgg16_gender, loss_func, optimizer, num_epoches=25)
-torch.save(trained_model.state_dict(), 'F:/Code/pretrained_model/vgg16_gender_CrossEntro_sgd_lr0.01.pth')
-np.save(r'D:\cnnface\Data_sorted\vgg16\train/loss_change_curve_sgd_lr0.01.npy', loss_curve)
+# save the parameters and the trainning curve
+trained_model,loss_dev,acc_dev = dnn_train_model(dataloader, model_train, loss_func, optimizer, exp_lr_scheduler,
+                                                 num_epoches=25)
+torch.save(trained_model.state_dict(), r'F:\Code\pretrained_model\review_version\previous_method/vggface_gender.pth')
+# np.save(r'D:\cnnface\analysis_for_reply_review\train\vggface\train_dev/loss_dev_nonor_wdecay.npy', loss_dev)
+# acc_dev = [acc.cpu().numpy() for acc in acc_dev]
+np.save(r'D:\cnnface\analysis_for_reply_review\train&evaluate\train_dev\vggface/acc_dev_previous_method.npy', acc_dev)

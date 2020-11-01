@@ -29,6 +29,7 @@ if __name__ == '__main__':
     ci_human = np.load(r'D:\cnnface\Data_sorted\human\ci\data/ci_human.npy')
     #ci_vgg_act = np.load(r'D:\cnnface\Data_sorted\vggface_act\ci\data/ci_vgg_act.npy')
     ci_vgg = np.load(r'D:\cnnface\Data_sorted\vggface\ci\data/ci_vgg.npy')
+    ci_vgg = np.load(r'D:\cnnface\analysis_for_reply_review\analysis\CI/vggface_ci.npy')
 
     #ci_vgg16 = np.load(r'D:\cnnface\Data_sorted\vgg16\ci\data/ci.npy')
     similarity = img_similarity(ci_human, ci_vgg, 'pearsonr')

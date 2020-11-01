@@ -15,7 +15,7 @@ class ClassImage(object):
             parameter[1D-array]: 4092 parameters determined the class image.
         """
         if len(data.shape) == 2:
-            self.data = data
+            self.img = data
         self.parameter = None
 
     def cal_param(self, paramNtrial, labelNtrial):
@@ -45,7 +45,7 @@ class ClassImage(object):
         self.parameter = np.squeeze(param_0 - param_1)
         return self.parameter
 
-    def generate(self, level='sum', patch='default'):
+    def generate_ci(self, level='sum', patch='default'):
         """
         Generate the classification image from parameters of ci.
 
@@ -73,7 +73,7 @@ class ClassImage(object):
         ci_multilevel = patches * patchParam
 
         if level == 'sum':
-            self.data = np.sum(ci_multilevel, axis=2)
+            self.img = np.sum(ci_multilevel, axis=2)
         elif isinstance(level, (tuple,list)):
             ci = []
             slice_index = {2: 0, 4: 12, 8: 24, 16: 32, 32: 48}
@@ -81,10 +81,13 @@ class ClassImage(object):
                 index = slice_index[i]
                 ci_level = np.sum(patches[:, :, index:index+12] * patchParam[:, :, index:index+12], axis=2)
                 ci.append(ci_level)
-            self.data = np.array(ci)
+            self.img = np.array(ci)
         else:
             print('The level should be the list of space frequency.')
-        return self.data
+        return self.img
+
+    def plot_ci(self):
+        pass
 
 
 def correlation_ci(ci1,ci2,frequency_scale=False):

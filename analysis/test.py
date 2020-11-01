@@ -102,8 +102,6 @@ plt.imshow(ci,'gray')
 plt.show()
 
 
-
-
 #%%
 # generate the alexnet ci
 params = np.load(r'D:\cnnface\gender_analysis\supplementray_analysis\noise_stimuli\metadata/alexnet_params_20000.npy')
@@ -116,7 +114,6 @@ new_cis = generateCI(alexnet_param_ci, [2,4,8,16,32])
 plt.imshow(alexnet_ci,'jet')
 plt.show()
 
-
 #%%
 param_20000 = np.load(r'D:\cnnface\gender_analysis\noise_stimulus\metadata/params_20000.npy')
 label = r'D:\cnnface\Data_sorted\new_alexnet/label.npy'
@@ -128,8 +125,6 @@ plt.imshow(alexnet_ci,'jet')
 plt.show()
 
 #%%
-
-
 def average_ci(param_n):
     ci_all = np.zeros((512, 512))
     for i, param in enumerate(param_n):

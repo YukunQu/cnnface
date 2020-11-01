@@ -47,23 +47,20 @@ def dnn_test_model(dataloaders, model):
     return model_target, actual_target, test_acc
 
 # load model
-# vggid = Vgg_identity()
-# vggid.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
 
-#alexnet_gender = Alexnet_gender()
-#alexnet_gender.load_state_dict(torch.load('F:/Code/pretrained_model/alexnet_gender_CrossEntro.pth'))
+model_gender = Vgg_identity()
+model_gender.load_state_dict(torch.load(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_gender.pth'))
 
-# vgg16
-vgg16_gender = vgg16()
-vgg16_gender.classifier[-1] = nn.Linear(4096, 2, bias=True)
-vgg16_gender.load_state_dict(torch.load('F:/Code/pretrained_model/vgg16_gender_CrossEntro_sgd_lr0.01.pth'))
 
 # load noise image
-imgcsv_path = r'D:\cnnface\gender_analysis\train_stimulus\test.csv'
-transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
+imgcsv_path = r'D:\cnnface\analysis_for_reply_review\data/val.csv'
+transform = transforms.Compose([transforms.Resize((224, 224)),
+                                transforms.ToTensor()])
 PicSet = PicDataset(imgcsv_path, transform)
 Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
 
 # Get Classification result of vgg
-label, expect_label, accuracy = dnn_test_model(Picloader, vgg16_gender)
+label, expect_label, accuracy = dnn_test_model(Picloader, model_gender)
 print(accuracy)
+
+
