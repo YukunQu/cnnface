@@ -86,26 +86,28 @@ def dnn_train_model(dataloaders, model, criterion, optimizer, scheduler, num_epo
     print('Total training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
     return model, loss_dev, acc_dev
 
-# prepare data
-images_path = r'D:\cnnface\analysis_for_reply_review\data\train.csv'
 
-transforms = transforms.Compose([transforms.Resize((224, 224)),
-                                 transforms.ToTensor()])
-dataSet = PicDataset(images_path, transforms)
-dataloader = DataLoader(dataSet, batch_size=16, shuffle=True)
+if __name__ == '__main__':
+    # prepare data
+    images_path = r'D:\cnnface\analysis_for_reply_review\data\train.csv'
 
-# initialize the model,loss function,optimizer
-model_train = Vgg_identity()
-model_train.load_state_dict(torch.load(r'F:/Code/pretrained_model/vgg_identity_ori.pth'))
-optimizer = torch.optim.Adam(model_train.parameters(), lr=0.03)
-exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=15, gamma=0.1)
-loss_func = nn.CrossEntropyLoss()
+    transforms = transforms.Compose([transforms.Resize((224, 224)),
+                                     transforms.ToTensor()])
+    dataSet = PicDataset(images_path, transforms)
+    dataloader = DataLoader(dataSet, batch_size=16, shuffle=True)
 
-# train dnn model
-# save the parameters and the trainning curve
-trained_model,loss_dev,acc_dev = dnn_train_model(dataloader, model_train, loss_func, optimizer, exp_lr_scheduler,
-                                                 num_epoches=25)
-torch.save(trained_model.state_dict(), r'F:\Code\pretrained_model\review_version\previous_method/vggface_gender.pth')
-# np.save(r'D:\cnnface\analysis_for_reply_review\train\vggface\train_dev/loss_dev_nonor_wdecay.npy', loss_dev)
-# acc_dev = [acc.cpu().numpy() for acc in acc_dev]
-np.save(r'D:\cnnface\analysis_for_reply_review\train&evaluate\train_dev\vggface/acc_dev_previous_method.npy', acc_dev)
+    # initialize the model,loss function,optimizer
+    model_train = Alexnet_gender()
+    model_train.load_state_dict(torch.load(r'F:/Code/pretrained_model/alexnet_gender_ori.pth'))
+    optimizer = torch.optim.Adam(model_train.parameters(), lr=0.03)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=15, gamma=0.1)
+    loss_func = nn.CrossEntropyLoss()
+
+    # train dnn model
+    # save the parameters and the trainning curve
+    trained_model, loss_dev, acc_dev = dnn_train_model(dataloader, model_train, loss_func, optimizer, exp_lr_scheduler,
+                                                     num_epoches=25)
+    torch.save(trained_model.state_dict(), r'F:\CAS_PEAL_dataset\model\param/alexnet_gender.pth')
+    np.save(r'F:\CAS_PEAL_dataset\model\train_dev/loss_dev.npy', loss_dev)
+    # acc_dev = [acc.cpu().numpy() for acc in acc_dev]
+    np.save(r'F:\CAS_PEAL_dataset\model\train_dev/acc_dev.npy', acc_dev)

@@ -54,8 +54,11 @@ if __name__=='__main__':
     from torchvision.models import vgg16
 
     #load model
+    # model_gender = Vgg_identity()
+    # model_gender.load_state_dict(torch.load(r'F:\Code\pretrained_model\review_version\2.0/vggface_gender.pth'))
+
     model_gender = Vgg_identity()
-    model_gender.load_state_dict(torch.load(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_gender.pth'))
+    model_gender.load_state_dict(torch.load(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\model\parameter/vggface_gender.pth'))
 
     # load data
     imgcsv_path = r'D:\cnnface\gender_analysis\noise_stimulus/baseface_20000.csv'
@@ -67,9 +70,9 @@ if __name__=='__main__':
     label, label_prob, dnn_act = dnn_ouput(Picloader, model_gender)
 
     # # save Classification result and classification probability
-    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/label.npy', label)
-    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/prob.npy', label_prob)
-    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/act.npy', dnn_act)
+    np.save(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\result\alexnet/label.npy', label)
+    np.save(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\result\alexnet/prob.npy', label_prob)
+    np.save(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\result\alexnet/act.npy', dnn_act)
 
     # #%%
     # male_prob = label_prob[:, 1]

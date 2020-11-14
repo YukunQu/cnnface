@@ -46,21 +46,29 @@ def dnn_test_model(dataloaders, model):
     print('Testing complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
     return model_target, actual_target, test_acc
 
-# load model
 
-model_gender = Vgg_identity()
-model_gender.load_state_dict(torch.load(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_gender.pth'))
+if __name__ =='__main__':
+    # load model
+    #
+    model_gender = Vgg_identity()
+    model_gender.load_state_dict(torch.load(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\model\parameter/vggface_gender.pth'))
 
+    # model_gender = Alexnet_gender()
+    # model_gender.load_state_dict(torch.load(r'F:\Code\pretrained_model\paper_version/alexnet_gender_CrossEntro.pth'))
 
-# load noise image
-imgcsv_path = r'D:\cnnface\analysis_for_reply_review\data/val.csv'
-transform = transforms.Compose([transforms.Resize((224, 224)),
-                                transforms.ToTensor()])
-PicSet = PicDataset(imgcsv_path, transform)
-Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
+    # load noise image
+    imgcsv_path = r'D:\cnnface\analysis_for_reply_review\data/test.csv'
+    transform = transforms.Compose([transforms.Resize((224, 224)),
+                                    transforms.ToTensor()])
+    PicSet = PicDataset(imgcsv_path, transform)
+    Picloader = DataLoader(PicSet, batch_size=16, shuffle=False)
 
-# Get Classification result of vgg
-label, expect_label, accuracy = dnn_test_model(Picloader, model_gender)
-print(accuracy)
+    # Get Classification result of vgg
+    label, expect_label, accuracy = dnn_test_model(Picloader, model_gender)
+    print(accuracy)
 
-
+    # save label
+    save_dir = r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\train&evaluate\test'
+    # np.save(save_dir+'/label.npy', label)
+    # np.save(save_dir+'/expect_label.npy', expect_label)
+    np.savetxt(save_dir+'/vggface_test_accuracy.txt', accuracy)

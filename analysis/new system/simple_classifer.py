@@ -7,10 +7,11 @@ from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader
 from cnnface.dnn.model_train import dnn_train_model
 
+
 class Simple_classifier(nn.Module):
     # It is a simple face classifer using Classification image as the weight.
-    def __int__(self):
-        super(Simple_classifier, self).__int__()
+    def __init__(self):
+        super(Simple_classifier, self).__init__()
         self.classifier = nn.Linear(50176, 1)
 
     def forward(self, x):
@@ -24,8 +25,8 @@ def simple_classifier(load_ci):
     model = Simple_classifier()
     if load_ci:
         ci_weight = ci2weight(load_ci)
-        model.classifier.weight.data = ci_weight
-    model.classifier.weight.requires_grad = False
+        model.classifier.weigh = ci_weight
+    model.classifier.weight.requires_grad = True
     model.classifier.bias.requires_grad = True
     return simple_classifier()
 

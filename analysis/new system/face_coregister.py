@@ -75,10 +75,10 @@ def face2template(imgpaths, dest_filename=None, width=500, height=600, backgroun
 def main():
     stim_class = ['female','male']
     for stim in stim_class:
-        imagefolder = r'D:\cnnface\analysis_for_reply_review\data\train\{}'.format(stim)
+        imagefolder = r'D:\cnnface\analysis_for_reply_review\data\val\{}'.format(stim)
         imgpaths = list_imgpaths(imagefolder)
         dest_filename = r'D:\cnnface\gender_analysis\face_template\gray/baseface.jpg'
-        out_filename = r'D:\cnnface\analysis_for_reply_review\data\registrated\train\{}/{}.png'
+        out_filename = r'D:\cnnface\analysis_for_reply_review\data\registrated\val\{}/{}.png'
         width = 512
         height = 512
         background = 'black'

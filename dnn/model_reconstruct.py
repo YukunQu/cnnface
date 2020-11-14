@@ -134,16 +134,17 @@ class Alexnet_100(AlexNet):
         self.classifier = new_classifier
 
 
-# generate and save a new classifier parameters(two class)
-vgg_face = Vgg_face()
-vgg_face.load_state_dict(torch.load('F:/Code/pretrained_model/vgg_face_dag.pth'))
+if __name__ == "__main__" :
+    # generate and save a new classifier parameters(two class)
+    vgg_face = Vgg_face()
+    vgg_face.load_state_dict(torch.load('F:/Code/pretrained_model/ori/vgg_face_dag.pth'))
 
-in_features = vgg_face.fc8.in_features
-out_features = 100
-new_fc8 = nn.Linear(in_features, out_features, bias=True)
-vgg_face.fc8 = new_fc8
+    in_features = vgg_face.fc8.in_features
+    out_features = 100
+    new_fc8 = nn.Linear(in_features, out_features, bias=True)
+    vgg_face.fc8 = new_fc8
 
-torch.save(vgg_face.state_dict(), 'F:/Code/pretrained_model/vgg_100_ori.pth')
+    torch.save(vgg_face.state_dict(), 'F:/Code/pretrained_model/vgg_100_ori.pth')
 
 #
 # alexnet_new = alexnet(pretrained=True)

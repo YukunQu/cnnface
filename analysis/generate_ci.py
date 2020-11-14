@@ -2,13 +2,14 @@ import numpy as np
 from PIL import Image
 
 
-def act2label(activaiton, savepath):
+def act2label(activaiton, savepath=False):
     male_activation = activaiton[:, 1]
     baseline = np.mean(male_activation)
     # calculate the label
     activation_wave = male_activation - baseline
     label = np.array([1 if a > 0 else 0 for a in activation_wave])
-    np.save(savepath, label)
+    if savepath:
+        np.save(savepath, label)
     return label
 
 
@@ -124,18 +125,15 @@ if __name__ == '__main__':
 
     baseface = Image.open(r'D:\cnnface\gender_analysis\face_template\gray/baseface.jpg')
     param = np.load(r'D:\cnnface\Data_sorted\vggface\raw/params_20000.npy')
-    # act = np.load(r'D:\cnnface\analysis_for_reply_review\analysis\noise_classification/vggface/act.npy')
-    # label = act2label(act,r'D:\cnnface\analysis_for_reply_review\analysis\noise_classification/vggface/act_label.npy')
+    #label = np.load(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\result\vggface/label.npy')
 
-    act = np.load(r'F:\Code\pretrained_model\review_version\previous_stim/act.npy')
-    label = act2label(act,r'F:\Code\pretrained_model\review_version\previous_stim/act_label.npy')
+    act = np.load(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\result\alexnet/act.npy')
+    label = act2label(act,r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\result\alexnet/act_label.npy')
 
     param_ci = cal_paramci(param, label)
-
-    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_param_ci.npy', param_ci)
-
+    np.save(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\ci\alexnet_param_ci_act.npy', param_ci)
     ci = generateCI(param_ci)
-    np.save(r'F:\Code\pretrained_model\review_version\previous_stim/vggface_ci.npy', ci)
+    np.save(r'D:\cnnface\analysis_for_reply_review\analysis\new dataset\ci\alexnet_ci_act.npy', ci)
 
     # scales = np.arange(1, 100)
     # # for scale in scales:

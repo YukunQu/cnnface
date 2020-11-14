@@ -33,6 +33,3 @@ plt.savefig(r'F:\研究生资料库\项目五：AI\文章图\img\Figure2/figure2
 
 similarity = correlation_ci(cis_vgg,cis_human,True)
 print(similarity)
-
-for k,v in simi.items():
-    simi[k] = np.round(v[0],2)
